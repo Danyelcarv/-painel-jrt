@@ -1,0 +1,492 @@
+<title>Portfólio JRT Piauí</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg-page:#e6eee2;
+    --bg-surface:#f9fbf6;
+    --bg-surface-2:#eef4e9;
+    --ink-primary:#241b2f;
+    --ink-secondary:#5a5563;
+    --ink-muted:#8b8794;
+    --border:rgba(36,52,38,0.12);
+    --border-strong:rgba(36,52,38,0.2);
+    --accent:#1b805a;
+    --accent-ink:#ffffff;
+    --accent-soft:#d9eadf;
+    --clay:#b8175f;
+    --clay-soft:#f7e3ec;
+    --success:#1b805a;
+    --success-soft:#e2f0e9;
+    --shadow: 0 1px 2px rgba(19,28,36,0.06), 0 8px 24px -12px rgba(19,28,36,0.18);
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg-page:#101411;
+    --bg-surface:#181d19;
+    --bg-surface-2:#1f2521;
+    --ink-primary:#f1f0f3;
+    --ink-secondary:#b2afb9;
+    --ink-muted:#7f7c88;
+    --border:rgba(255,255,255,0.10);
+    --border-strong:rgba(255,255,255,0.16);
+    --accent:#3fbf86;
+    --accent-ink:#0e1310;
+    --accent-soft:#1a2e24;
+    --clay:#ee6aa6;
+    --clay-soft:#3a2230;
+    --success:#3fbf86;
+    --success-soft:#1a2e24;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg-page);
+    color:var(--ink-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding-inline:16px;
+  }
+  h1,h2,h3,.display{ font-family:"Sora", system-ui, sans-serif; text-wrap:balance; }
+  .num{ font-variant-numeric: tabular-nums; }
+  a{ color:var(--accent); }
+
+  .wrap{ max-width:1520px; margin:0 auto; padding-block:14px 48px; }
+
+  /* ---------- header (compact, single strip) ---------- */
+  .masthead{
+    display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 12px;
+    padding:0 4px 6px;
+  }
+  .masthead .badge-dot{
+    display:inline-block; width:8px; height:8px; border-radius:999px; background:#e3c21a; margin-right:2px;
+  }
+  .masthead h1{ font-size:18px; font-weight:800; margin:0; display:inline-flex; align-items:center; gap:7px; }
+  .masthead .eyebrow{
+    font-size:11.5px; color:var(--ink-muted); font-weight:600; margin:0;
+  }
+
+  .themebtn{
+    margin-left:auto; font:inherit; font-size:11px; font-weight:600; color:var(--ink-secondary);
+    background:var(--bg-surface); border:1px solid var(--border-strong); border-radius:999px;
+    padding:3px 10px; cursor:pointer;
+  }
+  .themebtn:hover{ border-color:var(--accent); color:var(--accent); }
+
+  /* ---------- filter bar ---------- */
+  .filterbar{
+    position:sticky; top:env(safe-area-inset-top,0px);
+    z-index:20;
+    background:var(--bg-surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:5px 10px;
+    box-shadow:var(--shadow);
+    display:flex; flex-wrap:wrap; gap:3px 14px; align-items:center;
+    margin-bottom:10px;
+  }
+  .filtergroup{ display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
+  .filtergroup > div{ display:flex; flex-wrap:wrap; gap:3px; }
+  .filtergroup .flabel{ font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); margin-right:2px; }
+  .pill{
+    border:1px solid var(--border-strong); background:var(--bg-surface-2); color:var(--ink-secondary);
+    font:inherit; font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; cursor:pointer; line-height:1.4;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .pill:hover{ border-color:var(--accent); }
+  .pill[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .resetlink{ font-size:11px; font-weight:600; color:var(--accent); background:none; border:0; cursor:pointer; padding:2px 4px; }
+  .resetlink:disabled{ opacity:.35; cursor:default; }
+
+  /* ---------- KPI grid (2x2, sits beside the map) ---------- */
+  .leftcol{ flex:0 1 420px; align-self:stretch; display:flex; flex-direction:column; gap:12px; }
+  .kpis{ flex:1 1 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); grid-auto-flow:dense; gap:12px; }
+  .macrokpis-title{ font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-muted); text-align:center; }
+  .macrokpis{ flex:1.6 1 0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:12px; }
+  .mkpi{
+    background:var(--bg-surface); border:1px solid var(--border); border-radius:15px; padding:11px 14px;
+    box-shadow:var(--shadow); cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  }
+  .mkpi[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); }
+  .mkpi .mname{ font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-muted); }
+  .mkpi .mcount{ font-family:"Sora",sans-serif; font-size:18px; font-weight:800; margin-top:2px; color:var(--accent); white-space:nowrap; }
+  .mkpi .mcount small{ font-family:system-ui,sans-serif; font-size:12px; font-weight:600; color:var(--ink-secondary); }
+  .mkpi .mvalue{ font-family:"Sora",sans-serif; font-size:15px; font-weight:700; margin-top:1px; color:var(--clay); white-space:nowrap; }
+  .kpi{
+    background:var(--bg-surface); border:1px solid var(--border); border-radius:15px; padding:11px 14px;
+    box-shadow:var(--shadow);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  }
+  .kpi:nth-child(2){ grid-column:1 / -1; }
+  .kpi .label{ font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-muted); }
+  .kpi .value{ font-family:"Sora",sans-serif; font-size:21px; font-weight:800; margin-top:2px; white-space:nowrap; }
+  .kpi .value.clay{ color:var(--clay); }
+  .kpi .value.accent{ color:var(--accent); }
+
+  /* ---------- top row: KPIs (left) / compact map (right), sized to content ---------- */
+  .topgrid{ display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:16px; align-items:stretch; }
+  .topgrid .card{ flex:0 0 460px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .topgrid .card .mapwrap{ flex:1 1 auto; display:flex; align-items:center; justify-content:center; width:100%; }
+  @media (max-width:720px){ .topgrid .card{ flex:1 1 280px; } .leftcol{ flex:1 1 100%; } }
+
+  .card{
+    background:var(--bg-surface); border:1px solid var(--border); border-radius:16px;
+    box-shadow:var(--shadow); padding:18px 20px;
+  }
+  .card h2{ font-size:15px; font-weight:700; margin:0 0 4px; }
+  .card .sub{ font-size:12.5px; color:var(--ink-muted); margin:0 0 14px; }
+
+  /* ---------- map ---------- */
+  .mapwrap{ position:relative; text-align:center; }
+  .mapwrap svg{ width:100%; max-width:414px; height:auto; display:block; margin:0 auto; }
+  .terr-path{
+    stroke:var(--bg-surface); stroke-width:1.6; cursor:pointer;
+    transition: opacity .15s, filter .15s;
+  }
+  .terr-path.dim{ opacity:.22; }
+  .terr-path:hover{ filter:brightness(1.08); }
+  .terr-label{
+    font-family:"Sora",sans-serif; font-weight:700; font-size:15px; fill:#fff; pointer-events:none;
+    paint-order: stroke; stroke:rgba(0,0,0,.35); stroke-width:2.4px; stroke-linejoin:round;
+  }
+  .terr-label.dim{ opacity:.35; }
+  .map-tip{
+    position:absolute; pointer-events:none; background:var(--ink-primary); color:var(--bg-surface);
+    font-size:12px; font-weight:600; padding:6px 10px; border-radius:8px; transform:translate(-50%,-120%);
+    white-space:nowrap; opacity:0; transition:opacity .1s; box-shadow:var(--shadow); z-index:5;
+  }
+
+  /* ---------- project list ---------- */
+  .proj{
+    border:1px solid var(--border); border-radius:12px; padding:13px 15px; background:var(--bg-surface-2);
+  }
+  .proj .ptop{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+  .proj .ptitle{ font-weight:700; font-size:13.6px; line-height:1.35; color:var(--ink-primary); text-decoration:none; }
+  .proj .ptitle:hover{ text-decoration:underline; color:var(--accent); }
+  .proj .pvalue{ font-family:"Sora",sans-serif; font-weight:800; font-size:14.5px; color:var(--clay); white-space:nowrap; flex:none; }
+  .proj .pmeta{ margin-top:6px; font-size:12px; color:var(--ink-secondary); display:flex; flex-wrap:wrap; gap:4px 10px; }
+  .proj .pmeta b{ color:var(--ink-primary); font-weight:600; }
+  .badge{
+    display:inline-flex; align-items:center; font-size:10.5px; font-weight:700; letter-spacing:.03em;
+    padding:2px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent);
+  }
+  .badge.clay{ background:var(--clay-soft); color:var(--clay); }
+  .proj .pbenef{ margin-top:7px; font-size:12px; color:var(--ink-secondary); padding-top:7px; border-top:1px dashed var(--border); }
+  .proj .pbenef b{ color:var(--ink-primary); font-weight:600; }
+  .empty{ text-align:center; padding:40px 10px; color:var(--ink-muted); font-size:13.5px; }
+
+  footer{ text-align:center; font-size:11.5px; color:var(--ink-muted); padding-top:10px; }
+
+  /* ---------- territory popup ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(8,12,15,0.55); z-index:60;
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    opacity:0; pointer-events:none; transition:opacity .15s;
+  }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+  .modal-card{
+    background:var(--bg-surface); border-radius:16px; box-shadow:var(--shadow);
+    width:100%; max-width:720px; max-height:min(78vh,760px); display:flex; flex-direction:column;
+    transform:translateY(8px) scale(.98); transition:transform .15s;
+  }
+  .modal-backdrop.open .modal-card{ transform:translateY(0) scale(1); }
+  .modal-header{
+    display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--border);
+  }
+  .modal-header .swatch{ width:12px; height:12px; border-radius:4px; flex:none; }
+  .modal-header h3{ font-size:16px; font-weight:800; margin:0; flex:1 1 auto; }
+  .modal-header .mcount{ font-size:12px; color:var(--ink-muted); font-weight:600; }
+  .modal-close{
+    border:0; background:var(--bg-surface-2); color:var(--ink-secondary); width:30px; height:30px; border-radius:9px;
+    font-size:15px; cursor:pointer; flex:none; display:flex; align-items:center; justify-content:center;
+  }
+  .modal-close:hover{ color:var(--ink-primary); }
+  .modal-body{ padding:16px 18px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1><span class="badge-dot"></span>Portfólio de Projetos</h1>
+    <p class="eyebrow">Juventude Rural Transformadora · Piauí · 43 projetos</p>
+    <button class="themebtn" id="themeBtn" type="button" aria-label="Alternar modo escuro">☾ Modo escuro</button>
+  </header>
+
+  <div class="filterbar" id="filterbar">
+    <div class="filtergroup">
+      <span class="flabel">Macro</span>
+      <div id="macroFilters"></div>
+    </div>
+    <div class="filtergroup">
+      <span class="flabel">Território</span>
+      <div id="terrFilters"></div>
+    </div>
+    <button class="resetlink" id="resetBtn" style="margin-left:auto;">Limpar filtros</button>
+  </div>
+
+  <div class="topgrid">
+    <div class="leftcol">
+      <div class="kpis">
+        <div class="kpi"><div class="label">Projetos</div><div class="value num accent" id="kpiCount">43</div></div>
+        <div class="kpi"><div class="label">Valor total</div><div class="value num clay" id="kpiValor">R$ 0,00</div></div>
+        <div class="kpi"><div class="label">Territórios</div><div class="value num" id="kpiTerr">12 / 12</div></div>
+        <div class="kpi"><div class="label">Macrorregiões</div><div class="value num" id="kpiMacro">4 / 4</div></div>
+      </div>
+      <div class="macrokpis-title">Contratos e valores por macrorregião</div>
+      <div class="macrokpis" id="macroKpis"></div>
+    </div>
+
+    <div class="card">
+      <h2>Territórios de Desenvolvimento</h2>
+      <p class="sub">Clique num território do mapa pra ver os projetos dele, ou use os filtros acima pra restringir a lista completa.</p>
+      <div class="mapwrap" id="mapWrap">
+        <svg id="mapSvg" viewBox="0 0 640 940" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="map-tip" id="mapTip"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Painel gerado a partir da base revisada dos 43 projetos · Piauí, 2026</footer>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <span class="swatch" id="modalSwatch"></span>
+      <h3 id="modalTitle">Território</h3>
+      <span class="mcount" id="modalCount"></span>
+      <button class="modal-close" id="modalClose" aria-label="Fechar" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script id="dashboard-data" type="application/json">
+{"projetos":[{"macro":"Meio-Norte","territorio":"Carnaubais","municipio":"Campo Maior","titulo":"Promoção do desenvolvimento territorial por meio da modernização produtiva da cadeia extrativista da palha da carnaúba no território dos carnaubais","autores":"Débora Jaysa, Maria Cristina, Giovanna Barroso","valor":300000.0,"beneficiarios":"28 mulheres extrativistas associadas","tema":"Extrativismo","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sc87b54ff92664405b77b1d58d311e5e1&parId=A50E7E91EA75B079!s846084d644e844dca2ddae7b309df671&o=OneUp"},{"macro":"Meio-Norte","territorio":"Carnaubais","municipio":"Sigefredo Pacheco","titulo":"Terra Que Alimenta: Implantação de Quintais Produtivos, com foco no fortalecimento da agricultura familiar, no desenvolvimento rural sustentável e na inclusão produtiva de jovens e mulheres na Comunidade Baixa, em Sigefredo Pacheco – PI.","autores":"Juliana Kelly da silva Ferreira, Lauany Keroly Veras Pereira","valor":105350.0,"beneficiarios":"25 famílias da comunidade Baixa","tema":"Inclusão produtiva","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s3d9a423df1e8404589623cf11f067c33&parId=A50E7E91EA75B079!sa29417aa467b42ce9267fd34de7b7602&o=OneUp"},{"macro":"Cerrado","territorio":"Chapada das Mangabeiras","municipio":"Monte Alegre do Piauí","titulo":"Sistema Integrado de Piscicultura e Quintais Produtivos como estratégia de segurança alimentar e geração de renda no povoado São Dimas, município de Monte Alegre do Piauí","autores":"Claudia Ellen Lopes Vogado,Vitor Manoel Santos da Silva ","valor":269800.0,"beneficiarios":"90 familias, (21 JOVENS, 45 MULHERES)","tema":"Piscicultura integrada a quintais produtivos","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s36dc87bf54a64d31bb1b9ea2f62563ea&parId=A50E7E91EA75B079!s91c2db0085954863a664edc5474f8510&o=OneUp"},{"macro":"Cerrado","territorio":"Chapada das Mangabeiras","municipio":"Colônia do Gurguéia","titulo":"Estruturação da cadeia hortifrutícola para promoção do desenvolvimento sustentável e melhoria da qualidade de vida no Assentamento Nossa Senhora de Fátima, em Colônia do Gurguéia","autores":"Elielton Serpa dos Santos ","valor":153740.0,"beneficiarios":"24 sócios entre, 15 mulheres, 6 jovens e 4 homens","tema":"Hortifruticultura (hidroponia e beneficiamento)","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sf531ec9160fb4b81997eb563f3863464&parId=A50E7E91EA75B079!s94a0330896c248fbbdbc477c264f2971&o=OneUp"},{"macro":"Cerrado","territorio":"Chapada das Mangabeiras","municipio":"Corrente","titulo":"Implantação de Casa de Farinha Comunitária como Estratégia de Inclusão Produtiva e Desenvolvimento Sustentável na Associação Boi Manso","autores":"Fernanda Maciel Cordeiro, Lorranne Stéfani Martins de Miranda","valor":117267.47,"beneficiarios":"29 agricultores associados, sendo 13 mulheres e 16 homens","tema":"Mandiocultura (Casa de Farinha Comunitária)","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s807ed9df6d3c45928d955419611d55c5&parId=A50E7E91EA75B079!s0da93937d9c44768b87cbb8af46566bc&o=OneUp"},{"macro":"Cerrado","territorio":"Chapada das Mangabeiras","municipio":"Colônia do Gurguéia","titulo":"Desenvolvimento rural sustentável no Assentamento Estreito – Colônia do Gurguéia – PI, por meio do fortalecimento da mandiocultura e da promoção da sustentabilidade ambiental com manejo conservacionista do solo e da água","autores":"Matheus Feitosa Marques ","valor":271800.0,"beneficiarios":"14 mulheres e 7 jovens","tema":"Mandiocultura (agroindústria/casa de farinha)","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!se83efd8e49aa46d4948dac8e7c727dcf&parId=A50E7E91EA75B079!s6a70be6bff71437aada0ef5ccf6c2917&o=OneUp"},{"macro":"Cerrado","territorio":"Chapada das Mangabeiras","municipio":"Currais","titulo":"Implantação de unidade comunitária de beneficiamento de frutas integrada à horta agroecológica como estratégia de geração de renda fortalecimento da Associação dos Trabalhadores, Filhos e Amigos de Currais- PI.","autores":"Carlos Vinicius pires saraiva, Pedro Alcântara Lopes Santos ","valor":300000.0,"beneficiarios":"40 associados","tema":"Beneficiamento de frutas integrado à horta agroecológica","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s50d442a561f54e489671b006b32eb64a&parId=A50E7E91EA75B079!s78a531f218ba4726a83c307b7f991bb8&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"São João do Arraial","titulo":"Promoção do desenvolvimento rural sustentável por meio da diversificação e organização de quintais produtivos no assentamento piranhas – São João do Arraial (PI)","autores":"Adilson de Paiva Ribeiro e Ana Cristina Rodrigues Pessoa","valor":37500.0,"beneficiarios":"10 famílias agricultoras do Assentamento Piranhas que desenvolvem quintais produtivos, totalizando aproximadamente 40 a 50 pessoas","tema":"Quintais Produtivos","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s4c5998b7087246d68b3bc867293f20dc&parId=A50E7E91EA75B079!sdf41f257a2b64841a582707215f9e653&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"Pedro II","titulo":"Segurança hídrica e alimentar por meio de Quintal produtivo e beneficiamento de frutas, promovendo o fortalecimento das famílias rurais na associação Pedra Branca em Pedro II-PI.","autores":"Ana Catrina de Sousa Leite, Jôvanna Barbosa dos Santos","valor":305660.0,"beneficiarios":"23 pessoas associadas","tema":"Segurança hídrica e alimentar","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s4047a3e85be14cdfaf10a59a20b85b66&parId=A50E7E91EA75B079!sf204c552b3f5471dbceaba30ccccd6ed&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"São João do Arraial","titulo":"Implantação de um Apiário na Escola Família Agrícola dos Cocais São João do Arraial-PI","autores":"Auriane Ventura Cunha, Maciel Costa do Nascimento","valor":42650.0,"beneficiarios":"120 pessoas, entre agricultores familiares, jovens, mulheres sendo 75 jovens e 45 mulheres e lideranças comunitárias","tema":"Apicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s18631e0d55a64e30a8f1d7d2ba178cc9&parId=A50E7E91EA75B079!se896f608d96f494db915fc75dc389df9&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"Regeneração","titulo":"Fortalecimento da bovinocultura familiar por meio do controle zootécnico, manejo alimentar e reprodutivo na comunidade Lages no município de Regeneração","autores":"Francisca Valéria Oliveira Silva, Claudiane Vitória Diniz","valor":293126.52,"beneficiarios":"membros da Associação de Moradores da comunidade Lages I","tema":"Bovinocultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!se7e8fdb6ae174f5eb485e8b787a8932c&parId=A50E7E91EA75B079!sd2dd2f3e42fa4669a6391187c1c57227&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"Nossa Senhora dos Remédios","titulo":"Fortalecimento da agricultura familiar e inclusão Produtiva na localidade Santo Antônio (pi), com Implantação de unidade beneficiadora de grãos","autores":"Maria do Rosario, Geovana Sousa","valor":101000.0,"beneficiarios":"120  famílias agricultoras sendo mais de 80 mulheres e de 90 jovens da Comunidade Santo Antônio","tema":"Inclusão produtiva","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s869129b3e2fd4605a6c8d3e9ff863bf5&parId=A50E7E91EA75B079!s443e3ba1f2e84a898043ed2afc11502c&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"Campo Largo do Piauí","titulo":"Promoção da segurança alimentar e inclusão produtiva com geração de renda para famílias e jovens da comunidade quilombola Vila São Francisco por meio do campo produtivo agroecológico, em Campo largo do Piauí. ","autores":"Jardeni Lima, Maria Eleni Liarte Rocha","valor":75440.0,"beneficiarios":"20 famílias da comunidade, com participação de 20 mulheres e 10 jovens","tema":"Campo produtivo agroecológico","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s50f4743aed2546fbaaf41081ba071f8a&parId=A50E7E91EA75B079!s1b11fd141696450880ae19a2067f10b1&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"Pedro II","titulo":"Estruturação Produtiva e Agroindustrial da Ovinocaprinocultura Familiar em Pedro II – PI","autores":"João Vitor de Andrade santos","valor":300000.0,"beneficiarios":"30 agricultores familiares, sendo 12 mulheres, 14 homens e 04 jovens","tema":"Ovinocaprinocultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sd7d57e596e12466ab7c471c50ad8db00&parId=A50E7E91EA75B079!s8a0dd21aadfd47f3bcc06ef2383aab4c&o=OneUp"},{"macro":"Meio-Norte","territorio":"Cocais","municipio":"Madeiro","titulo":"Beneficiamento do pescado em Madeiro –PI: uma perspectiva sustentável e inovadora para as mulheres, jovens e comunidade em geral","autores":"Natália Pereira dos Santos, Rosivaldo Silva de Almeida, Wanderson da Silva Monteiro","valor":239225.0,"beneficiarios":"60 pescadores/as da localidade, sendo 30 mulheres, 16 jovens e 14 homens","tema":"Beneficiamento do pescado","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s390796c0857c4708a56bf07b1f613554&parId=A50E7E91EA75B079!sb3adec94edad4b4dbe2c584b1bb762b0&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"José de Freitas","titulo":"HIDROPONIA EM QUINTAIS RURAIS NO ASSENTAMENTO SÃO DOMINGOS (PI): SEGURANÇA ALIMENTAR E DESENVOLVIMENTO SUSTENTÁVEL","autores":"Hellen Silva, Samuel Nery","valor":81600.0,"beneficiarios":"","tema":"Hidropinia","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s5107de13f6cd4c47868844568afeef6d&parId=A50E7E91EA75B079!s4ae15463126942278190cc856b6c6b0a&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"Miguel Alves","titulo":"O Projeto Beneficiamento Sustentável do Caju: Estratégia de Geração de Renda e Fortalecimento da Agricultura Familiar em Miguel Alves –PI","autores":"Frank Willas, Maria Adalgisa ,Judite","valor":122600.0,"beneficiarios":"famílias da agricultura familiar de Miguel Alves – PI","tema":"Fruticultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sd53aa2b1ed8a4ef3b9cb1e860cb28d88&parId=A50E7E91EA75B079!s6b260a1cf8c4454282a91527440b0a23&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"José de Freitas","titulo":"Implantação de Banco Popular e Unidade Demonstrativa de Sementes Crioulas com Inclusão de Jovens e Mulheres no Assentamento São Francisco-José de Freitas","autores":"Larissa Cristina Cunha e Silva","valor":46313.62,"beneficiarios":"agricultores e agricultoras do assentamento São Francisco, que conta com aproximadamente 50 sócios","tema":"Banco de sementes","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s330fc58ec94a44a9accf45c6fc6eef79&parId=A50E7E91EA75B079!s55c403f1e3584eee8598254366e9a03d&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"Altos","titulo":"Raízes da Terra: Beneficiamento Ecológico de Frutas Locais em Altos - PI","autores":"Maria Glenda de Sousa Ferreira, Maria Rosimare Nepomuceno da Rocha","valor":174069.0,"beneficiarios":"cooperados da Cooperativa Agroindustrial de Pequenos Produtores do Estado do Piauí (COOAPP), bem como aproximadamente 30 famílias (incluindo 20 mulheres e 15 jovens)","tema":"Fruticultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sffb0680ea5074cf0869ac08f72b3ca26&parId=A50E7E91EA75B079!sa91464aa03184ccfa0fbfb346ce6a95c&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"José de Freitas","titulo":"Quintais Produtivos Irrigados como Estratégia de Desenvolvimento Sustentável e Inclusão Produtiva no Assentamento Vassouras – José de Freitas/PI","autores":"Rayka de Sousa Oliveira","valor":51142.5,"beneficiarios":"20 famílias, dentre elas aproximadamente 12 mulheres, 8 homens e 10 jovens rurais","tema":"Quintais Produtivos Irrigados","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s1011b2613b38452b966d3ad628739e58&parId=A50E7E91EA75B079!sc1005498ddd34ee980481ccb2e1b9bb8&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"Palmeirais","titulo":"IMPLANTAÇÃO DE QUINTAIS PRODUTIVOS COM BASE NO SISTEMINHA DA EMBRAPA COMO ESTRATÉGIA DE INCLUSÃO PRODUTIVA E O FORTALECIMENTO DA AGRICULTURA FAMILIAR NO TERRITÓRIO ENTRE RIOS – PI ","autores":"Rodrigo Lemos, Rita de Cássia e Kamila Monteiro","valor":164775.0,"beneficiarios":"15 famílias rurais, impactando aproximadamente 60 pessoas","tema":"Quintais Produtivos","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sd82646b8a43f4a15b7cb476ddd3ef811&parId=A50E7E91EA75B079!s18061176a3e142eebbd9487be94f12c5&o=OneUp"},{"macro":"Meio-Norte","territorio":"Entre Rios","municipio":"Teresina","titulo":"Inclusão produtiva da comunidade de cajazeiras, no Piauí, através do fortalecimento da cadeia produtiva da avicultura e beneficiamento de ovos","autores":"Gabriel Lima da Silva, Sara Hellen Osório Lopes Soares","valor":132690.0,"beneficiarios":"25 famílias de agricultores associados","tema":"Avicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!se75d023a91444e7dadb736f3f797c8aa&parId=A50E7E91EA75B079!s162104291d954752a882c05a77d5f0fb&o=OneUp"},{"macro":"Litoral","territorio":"Planície Litorânea","municipio":"Cocal","titulo":"Fortalecimento da Cadeia Produtiva do Mel na Cooperativa FrutaMel: Qualificação, Infraestrutura e Estratégias de Comercialização","autores":"Carlos Eduardo","valor":30000.0,"beneficiarios":"Cerca de 50 apicultores associados à Cooperativa FrutaMel. Contando com cerca de 20 jovens 5 mulheres e 25 homens","tema":"Meliponicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sdefc73ccfc414a3ea11949664b545c83&parId=A50E7E91EA75B079!sc758da81deff4f11b61db83a3117f03f&o=OneUp"},{"macro":"Litoral","territorio":"Planície Litorânea","municipio":"Cocal","titulo":"Inclusão Produtiva e Segurança Alimentar: Fortalecimento da Cadeia Avícola nas Comunidades Rurais de Cocal.","autores":"Catiane","valor":160000.0,"beneficiarios":"diretamente 7 famílias vinculadas à Cooperativa FrutaMel, correspondendo a um total de 15 avicultores, sendo 3 mulheres, 3 jovens e 9 homens","tema":"Inclusão produtiva","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sba4df05e79f3462f8d6d433bd2ae7990&parId=A50E7E91EA75B079!se7f22363aa2842a6a3aa8a955d700835&o=OneUp"},{"macro":"Litoral","territorio":"Planície Litorânea","municipio":"Parnaíba","titulo":"Pesca Artesanal da Manjuba, Segurança Alimentar e Inclusão Produtiva: Estratégias de Fortalecimento da Infraestrutura Comunitária no Litoral do Piauí.","autores":"Chuadê Cachoeira Do Nascimento","valor":155000.0,"beneficiarios":"40 famílias dentre os associados possuem 16 mulheres e 3 jovens","tema":"Pesca artesanal","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sbcc021ffbe6741569e682050d226c6e4&parId=A50E7E91EA75B079!scddca50dcdaf4030be1d35a0d85c21fc&o=OneUp"},{"macro":"Semiárido","territorio":"Serra Da Capivara","municipio":"São João do Piauí","titulo":"Fortalecimento das cadeias produtivas de fruticultura, horticultura e piscicultura na Associação APAM","autores":"Arthur Soares, Firmino Gabriel","valor":200000.0,"beneficiarios":"30 famílias agricultoras pertencentes a Associação de Produtores do Assentamento Marrecas (APAM) sendo 12 jovens e  18 mulheres","tema":"Fruticultura, horticultura e piscicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sb24631e4f8374d5f83c601b6e875f292&parId=A50E7E91EA75B079!s8a46430ba7404a5d93e673e291fd0f79&o=OneUp"},{"macro":"Semiárido","territorio":"Serra Da Capivara","municipio":"Bonfim do Piauí","titulo":"Inclusão produtiva de jovens na Associação de Apicultores de Bonfim do Piauí – AABP","autores":"Karollainy, Rian","valor":262625.0,"beneficiarios":"55 famílias da Associação de Apicultores de Bonfim do Piauí","tema":"Apicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s91a1aad6f66c4d34b04b42db46fde58d&parId=A50E7E91EA75B079!s7ad0bc9a738d43939ced74a3cc8d0bc3&o=OneUp"},{"macro":"Semiárido","territorio":"Serra Da Capivara","municipio":"São Raimundo Nonato","titulo":"Fortalecimento produtivo da Cozinha Comunitária Raízes do Quilombo para inclusão socioprodutiva, segurança alimentar e geração de renda no semiárido piauiense","autores":"Patrick Bastos, Lara Marques","valor":250059.91,"beneficiarios":"moradores da comunidade da Lagoa do Moisés","tema":"Inclusão produtiva","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sd2f71aa52d114440b27750a5655c4e3d&parId=A50E7E91EA75B079!s6075a6a96921424d80bbb6335b6c5b90&o=OneUp"},{"macro":"Semiárido","territorio":"Serra Da Capivara","municipio":"São João do Piauí","titulo":"Fortalecimento das cadeias produtivas da avicultura e ovinocultura na Associação dos Pequenos Agricultores Rurais Quilombola da Comunidade Curral Velho","autores":"Bárbara Moura Piauí, Rita de Cássia","valor":294700.0,"beneficiarios":"28 famílias agricultoras, 35 mulheres e  12 jovens","tema":"Avicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s14af66baa16a4e87b65abb8ce7c7ef88&parId=A50E7E91EA75B079!s4218e290306a42b9861b05c14ea47c79&o=OneUp"},{"macro":"Cerrado","territorio":"Tabuleiros Do Alto Parnaiba","municipio":"Uruçuí","titulo":"Desenvolvimento sustentável no território do Tabuleiro do Alto Parnaíba por meio da produção comunitária de mudas frutíferas e hortaliças, com foco no fortalecimento da segurança alimentar e hídrica","autores":"Angela de Oliveira Nunes, Yan Lucas Brito de Sousa ","valor":28799.24,"beneficiarios":"123 famílias agricultoras","tema":"Segurança alimentar e hídrica","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s215794f0165345888e7aa714b09fb127&parId=A50E7E91EA75B079!s79bde898f3504715ac03cdfc773a5af8&o=OneUp"},{"macro":"Cerrado","territorio":"Tabuleiros Do Alto Parnaiba","municipio":"Uruçuí","titulo":"Reativação de terras ociosas com inclusão produtiva e promoção do desenvolvimento sustentável para fortalecimento da segurança alimentar na Associação de Desenvolvimento Comunitário do Assentamento Santa Teresa","autores":"Jesus Carlos Silva Rodrigues, João Henrique Martins Rodrigues","valor":300000.0,"beneficiarios":"114 famílias assentadas","tema":"Inclusão produtiva","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s4a62442779c24fd097fbf0635b8477a3&parId=A50E7E91EA75B079!sf2ca3768465147cdb64a7dfde64a367f&o=OneUp"},{"macro":"Semiárido","territorio":"Vale Do Guaribas","municipio":"Pio IX","titulo":"Inclusão Produtiva e Fortalecimento da Avicultura Caipira para Promoção da Segurança Alimentar e Nutricional das Famílias da Comunidade de Sobrado – Pio IX/PI","autores":"Francisco Antônio de Alencar, Samuel Fagner dos Anjos Carvalho","valor":300000.0,"beneficiarios":"40 famílias da Comunidade, que totalizam 117 mulheres e 28 jovens","tema":"Avicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s4bb62cbd9d9e4707a825a5bd9fe96c53&parId=A50E7E91EA75B079!s628e5500b8a34c348ab5b3c8e5402c80&o=OneUp"},{"macro":"Semiárido","territorio":"Vale Do Guaribas","municipio":"Picos","titulo":"Agroindústria sustentável como estratégia de inclusão produtiva Projeto Sabores do Quintal","autores":"Sávio Wallace, Luana Beatriz, João Henrique","valor":300000.0,"beneficiarios":"30 famílias agricultoras","tema":"Beneficiamento de frutas","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s7a937aad7eb643bc8ddc2a8127e8e9be&parId=A50E7E91EA75B079!s025f9b55cd9b455bb917cb4e198cb1dd&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Canindé","municipio":"Multi-município (piloto territorial)","titulo":"ASSISTEC – Plataforma Digital Integrada de Assistência Técnica Rural para o fortalecimento da agricultura familiar, inclusão produtiva e desenvolvimento territorial sustentável.","autores":"Ana Alice de Sousa Rodrigues da Silva, Heloísa Ferreira de Almeida, João Pedro de Carvalho Ribeiro Bueno","valor":301000.0,"beneficiarios":"Agricultores familiares e pequenos produtores rurais.","tema":"Inclusão produtiva","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s83c61b70fe114fbe86d35a5742d01d0a&parId=A50E7E91EA75B079!s6a49adf386a6433480c1aea67208c6dc&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Canindé","municipio":"Colônia do Piauí","titulo":"Fortalecimento da caprinocultura para geração de renda, inclusão socioprodutiva e segurança alimentar na Comunidade Quilombola Angical","autores":"Débora Mendes, Erick Eugênio","valor":299963.0,"beneficiarios":"30 famílias da Comunidade","tema":"Caprinocultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sab359fffacd44b59a037fa4ef0b16923&parId=A50E7E91EA75B079!s40ad9323d8164987825b71ef45395b57&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Canindé","municipio":"Santa Cruz do Piauí","titulo":"Desenvolvimento da avicultura no Assentamento Sete Lagoas como meio de inclusão produtiva e fortalecimento econômico territorial em Santa Cruz do Piauí–PI","autores":"Erisvânia dos Santos Melo, Jamile Kelly Marques da Silva Gonçalves","valor":286010.0,"beneficiarios":"25 famílias, sendo 18 mulheres, 9 homens dentre esses 3 são jovens","tema":"Avicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!se093a931db2d46958a136f36657593ed&parId=A50E7E91EA75B079!s02785c719b904a74809e3d85899fdacd&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Canindé","municipio":"Oeiras","titulo":"Ovinocaprinocultura para combate à pobreza rural, fortalecimento da inclusão sócio produtiva e desenvolvimento territorial sustentável em Oeiras/PI","autores":"Érica Larine de Sousa Nogueira, Wellington Carvalho Moura","valor":300000.0,"beneficiarios":"28 associados","tema":"Ovinocaprinocultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s1c85fd3c0a65421592cf001d278c89d7&parId=A50E7E91EA75B079!s4796858645a94eb78248ecee16723eed&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Rio Itaim","municipio":"Betânia do Piauí","titulo":"Inclusão produtiva, segurança alimentar e desenvolvimento sustentável na cadeia de ovos caipiras e orgânicos da Associação Mulheres Avesertão de Betânia do Piauí","autores":"Ana Maria dos Humildes Sousa, Maria Suzana Coelho de Macedo","valor":300000.0,"beneficiarios":"46 mulheres associadas à AVE SERTÃO","tema":"Avicultura (ovos caipiras e orgânicos)","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!sd67646e8ab344f6e90fe789c569cf915&parId=A50E7E91EA75B079!s4e426207aea1498c823eec0425c316b0&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Rio Itaim","municipio":"Paulistana","titulo":"Protagonismo da juventude rural quilombola na ovinocaprinocultura sustentável do Vale do Itaim","autores":"Jamile Martins, Maria de Fátima Lopes da Silva","valor":299661.0,"beneficiarios":"jovens da comunidade Quilombo São Martins","tema":"Ovinocaprinocultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s2536d9ca7ace46da94092840eff4655e&parId=A50E7E91EA75B079!sd4227ae40c2a4c4da7a39a461c2f07c1&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Rio Itaim","municipio":"Betânia do Piauí","titulo":"Inclusão produtiva sustentável da agricultura familiar na Comunidade Emparedada (Betânia do Piauí) por meio da estruturação de unidade de beneficiamento de polpas de frutas com estratégias de economia circular","autores":"Francimária Coelho, Marinalva Rodrigues","valor":302724.3,"beneficiarios":"15 famílias","tema":"Fruticultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s761174fc5d8f491b913f3e285c9ee92a&parId=A50E7E91EA75B079!s7cadac3513294d2fa8463c5e2dc7c245&o=OneUp"},{"macro":"Semiárido","territorio":"Vale do Sambito","municipio":"Pimenteiras","titulo":"Agroindústria social e territórios sustentáveis: inovação em redes de cooperação, design de embalagens e estratégias de mercado para o fortalecimento da farinha de origem de Pimenteiras – Piauí","autores":"Marcos Arthur Jorge de Sepúlveda","valor":134090.0,"beneficiarios":"as 30 famílias assentadas, onde se incluem os 16 jovens e 26 mulheres","tema":"Mandiocultura / agroindústria de derivados da mandioca (farinha)","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!safe493de808e414085a910411f9c74f0&parId=A50E7E91EA75B079!sb2fd8d52a20d4fbabe730e4289f259e8&o=OneUp"},{"macro":"Cerrado","territorio":"Vale dos Rios Piauí e Itaueira","municipio":"Floriano","titulo":"Quintal Produtivo Agroecológico: Avicultura integrada a produção de hortaliças para o desenvolvimento sustentável da agricultura familiar no Assentamento Irajá, Floriano-PI.","autores":"Aylissa Kalliny da Silva Morais, Jaciara Mendes Riques Da Silva ","valor":131384.0,"beneficiarios":"20 famílias, sendo 18 mulheres e 6 jovens","tema":"Quintais Produtivos","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s2395ea204e4d44ff880f97931b91c013&parId=A50E7E91EA75B079!s34d9b21f740c47dfbf894c5cf1c07995&o=OneUp"},{"macro":"Semiárido","territorio":"Vale dos Rios Piauí e Itaueira","municipio":"Socorro do Piauí","titulo":"Estruturação logística e qualificação da apicultura na AAOCOSPI para o Desenvolvimento Sustentável e Inclusivo da Agricultura Familiar em Socorro do Piauí","autores":"Láynni Clenis Néri de Araújo, Wesley Santana Martins","valor":300000.0,"beneficiarios":"32 associados da Associação de Apicultores e Ovinocaprinocultores de Socorro do Piauí (AAOCOSPI","tema":"Apicultura","url":"https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2YvYy9hNTBlN2U5MWVhNzViMDc5L0lnQTFMdTZCOGNxU1E0YndlbVFVcjJKMkFVbDNtT20zZ2p4MjhTTndTUHJrWXFNP2U9TDRoUU5n&cid=A50E7E91EA75B079&id=A50E7E91EA75B079!s77cd509ae54948a2b628a402494fec6e&parId=A50E7E91EA75B079!se85be264bea7464c8bcd94ea24cb8ab2&o=OneUp"}],"territorios":["Carnaubais","Chapada das Mangabeiras","Cocais","Entre Rios","Planície Litorânea","Serra Da Capivara","Tabuleiros Do Alto Parnaiba","Vale Do Guaribas","Vale do Canindé","Vale do Rio Itaim","Vale do Sambito","Vale dos Rios Piauí e Itaueira"],"macros":["Cerrado","Litoral","Meio-Norte","Semiárido"],"map":{"viewW":640,"viewH":938.7,"territorios":[{"territorio":"Carnaubais - PI","curto":"Carnaubais","d":"M540.67 386.49L533.4 387.82L525.48 390.38L526.82 393.25L521.84 395.38L521.31 391.95L515.94 389.87L505.65 392.26L506.65 388.11L496.07 385.7L496.02 384.35L494.92 385.2L491.22 383.7L486.89 379.08L489.35 368.12L482.46 351.57L479.74 351.58L475.89 353.36L475.09 352.36L471.81 354.7L470.47 354.28L468.61 355.03L465.0 355.03L461.98 353.04L458.83 353.36L458.37 352.41L456.79 353.64L456.39 352.7L454.25 352.92L453.3 350.06L450.44 348.38L448.8 349.25L445.52 347.41L442.79 346.72L441.67 347.81L441.13 346.34L440.28 346.91L439.46 346.38L440.26 341.64L438.71 339.75L438.87 338.64L433.91 336.09L435.53 335.06L435.78 332.1L436.69 330.52L440.49 329.15L445.18 325.78L447.64 325.4L450.43 322.52L452.03 318.43L454.53 314.97L456.11 314.14L455.86 312.63L457.45 309.43L455.62 306.71L453.51 307.33L452.15 306.4L450.57 302.91L450.81 301.81L448.09 302.11L447.21 300.88L447.73 297.29L448.6 296.47L451.16 295.98L451.95 295.05L451.46 293.78L449.52 292.84L451.02 291.0L451.12 289.77L448.95 289.03L451.31 285.29L451.77 281.63L446.92 280.61L442.38 276.61L437.85 278.26L435.59 276.74L433.48 277.2L429.91 276.2L430.74 275.18L430.59 273.48L432.51 271.42L431.94 270.58L434.45 270.07L416.46 255.79L410.08 243.78L413.95 225.84L418.37 212.13L402.87 203.85L404.53 202.79L401.83 199.68L398.62 198.97L390.57 190.88L389.36 191.38L390.37 188.92L397.63 188.8L401.49 187.72L430.6 193.19L431.84 191.93L430.91 188.99L431.42 186.84L430.79 184.82L429.7 183.98L430.5 181.6L429.43 180.64L437.29 180.86L437.68 179.89L444.2 180.92L450.01 180.22L451.13 180.73L451.13 188.81L448.17 189.96L449.26 191.26L448.89 192.94L451.75 193.59L454.48 195.57L455.76 198.05L456.8 197.64L459.33 198.76L461.14 198.14L462.93 198.74L463.54 200.47L466.2 202.43L467.5 201.84L469.04 202.74L471.33 206.87L471.97 206.55L472.39 207.5L474.75 208.1L476.28 210.69L478.25 210.75L478.14 211.98L478.74 211.99L480.1 214.3L475.96 227.64L479.26 229.24L495.25 249.25L514.54 242.16L529.39 241.85L534.63 235.84L538.97 237.36L535.32 242.67L535.58 246.32L534.44 247.9L536.84 250.43L536.08 252.09L537.58 255.75L538.78 255.79L539.53 257.05L540.12 255.66L541.18 256.02L545.4 261.82L546.89 261.02L548.81 265.09L547.5 268.18L551.38 268.7L553.22 271.58L553.26 272.97L556.33 274.36L558.38 272.97L559.22 275.07L560.59 274.63L560.84 276.64L563.41 278.34L564.09 280.01L566.07 279.62L567.77 281.51L569.42 281.57L570.4 282.64L569.69 285.39L570.8 288.22L568.56 289.8L571.95 292.75L570.55 293.68L570.26 296.17L571.9 298.11L571.2 300.82L569.5 302.08L569.24 303.94L571.36 306.59L571.96 308.61L571.28 309.61L569.01 309.62L568.38 310.44L571.45 314.97L570.01 317.17L569.58 319.13L570.04 321.06L569.2 322.02L569.65 324.55L571.51 326.3L571.92 329.73L573.13 332.1L572.0 336.68L568.94 338.58L571.74 344.59L571.28 346.63L572.16 348.89L572.62 358.4L573.95 362.29L573.52 364.26L575.44 366.1L576.17 371.63L574.37 375.83L572.81 377.73L572.55 380.62L540.67 386.49Z","cx":482.8,"cy":287.6},{"territorio":"Chapada das Mangabeiras - PI","curto":"Chapada das Mangabeiras","d":"M133.4 925.8L125.92 930.7L120.86 926.26L116.45 925.72L114.88 923.7L110.16 920.75L106.6 921.47L105.36 920.79L95.53 919.9L94.1 919.45L93.96 918.15L90.76 918.67L89.72 917.53L88.5 913.51L86.18 912.32L82.52 911.72L78.54 908.55L77.33 902.67L75.54 899.48L71.81 898.6L70.3 897.1L69.82 891.04L68.67 889.02L69.68 885.46L68.66 883.23L73.87 878.23L74.35 876.2L71.18 874.11L70.54 866.56L67.6 864.2L64.51 860.41L61.21 858.71L60.32 857.23L59.9 852.75L55.87 849.81L54.89 847.11L55.32 841.78L52.46 838.48L50.75 838.41L46.3 840.4L41.7 843.57L37.66 843.73L36.73 845.46L37.64 849.39L36.86 851.81L30.21 856.22L24.72 855.27L20.88 853.02L13.28 855.22L12.28 850.67L13.34 849.36L13.36 848.19L14.96 847.56L15.73 845.34L18.42 843.27L19.51 839.71L20.8 838.48L21.76 833.86L20.62 832.66L21.21 832.25L22.17 827.02L23.43 825.64L23.19 824.34L24.82 819.47L23.07 815.64L22.16 811.49L23.81 807.9L24.44 804.49L26.36 802.59L27.14 800.5L27.22 798.66L26.52 797.5L27.26 796.78L26.34 795.05L26.66 794.16L26.01 793.77L26.34 792.65L25.3 791.86L26.28 790.02L25.9 786.79L27.3 783.06L26.7 781.83L25.46 781.25L25.82 779.63L24.85 778.33L24.92 776.74L26.48 774.9L25.97 773.87L27.21 772.7L27.11 771.91L29.89 768.32L31.39 767.44L30.06 765.27L30.86 765.04L29.76 763.24L30.18 762.78L29.37 762.41L29.76 760.4L26.83 755.63L24.29 753.54L22.5 753.85L20.69 752.4L19.82 752.69L19.12 751.94L19.42 750.74L18.17 749.2L17.64 746.49L18.74 746.11L18.87 744.87L18.01 743.5L18.59 743.04L18.21 741.8L18.8 739.9L18.06 739.48L18.57 737.01L17.79 734.93L18.45 734.96L18.7 734.15L15.3 728.93L15.85 723.56L14.85 723.28L15.23 721.33L13.93 719.72L14.45 717.8L13.38 716.2L13.6 715.11L11.86 713.58L10.81 710.76L9.08 709.17L8.01 706.23L8.0 705.01L9.58 702.44L9.21 701.0L10.92 699.4L10.48 697.89L12.06 695.42L12.98 695.92L13.37 695.4L13.39 694.4L11.91 693.8L11.68 692.98L14.07 690.39L14.54 688.5L17.57 686.2L19.35 686.66L19.6 684.06L22.49 682.95L22.35 681.38L23.6 680.69L25.08 681.31L27.19 675.71L28.23 674.64L27.3 674.3L27.43 672.77L29.77 670.55L29.8 669.79L31.94 670.33L33.33 669.4L30.19 667.47L30.21 666.56L32.69 665.38L33.8 664.02L33.87 662.65L34.67 661.81L34.31 660.18L36.34 657.19L35.51 656.34L35.89 651.19L37.44 649.15L36.94 648.01L38.48 646.15L38.22 645.15L39.93 644.53L39.66 645.13L40.95 646.05L40.88 646.93L42.6 646.79L44.83 649.24L45.3 651.68L46.25 652.04L46.18 652.88L47.26 652.94L46.82 653.32L47.71 654.14L47.31 655.14L48.37 655.04L48.16 655.61L49.45 656.64L51.39 656.94L53.56 656.18L54.52 657.33L55.32 657.02L55.17 657.82L56.03 657.3L56.12 658.16L58.22 658.46L58.21 659.4L58.91 658.95L58.98 659.68L60.62 660.0L61.22 661.05L61.54 660.51L62.41 662.42L66.88 663.7L69.02 665.6L72.2 671.06L75.56 674.64L75.97 677.67L74.91 679.63L74.15 683.96L74.8 685.4L74.12 688.61L74.75 689.68L74.04 690.62L74.89 693.57L74.11 698.08L71.21 700.18L70.76 701.75L69.17 702.58L66.06 706.09L64.5 709.46L62.75 710.2L61.08 714.75L58.12 717.73L56.54 717.76L55.85 719.36L56.86 722.08L59.68 725.23L59.01 729.26L61.52 732.76L83.67 740.75L89.53 735.68L91.59 731.71L95.08 728.92L96.9 726.44L97.99 723.18L99.95 721.86L100.22 720.83L102.62 719.11L103.9 717.12L110.11 712.33L112.0 709.9L116.51 708.08L119.83 705.03L122.92 700.08L122.66 699.19L124.62 698.3L127.95 693.47L130.84 684.49L131.14 675.2L130.53 674.54L132.25 664.29L131.95 660.74L135.11 656.95L134.99 655.2L136.0 654.06L136.54 650.02L137.47 649.53L137.23 648.51L138.79 645.05L138.36 638.86L135.41 635.0L135.78 630.61L183.93 652.75L189.01 634.01L214.86 631.66L218.26 604.02L244.09 598.01L252.93 598.85L252.03 597.7L253.0 592.95L252.0 591.22L252.75 590.63L252.19 587.72L252.91 586.6L252.31 585.76L253.52 584.05L253.59 581.2L251.56 578.32L252.7 577.38L252.74 576.42L252.3 575.4L251.48 575.68L251.88 573.95L252.81 573.67L253.65 571.37L254.25 571.67L254.64 569.87L255.36 569.59L279.19 587.54L285.51 607.94L285.59 614.3L282.66 617.37L282.31 619.63L275.89 629.56L270.24 630.44L262.33 681.52L252.28 692.45L243.76 715.47L234.06 733.0L253.42 764.39L251.51 767.43L249.4 769.07L245.75 775.6L246.84 779.42L246.71 782.42L247.68 783.01L246.79 785.21L248.47 786.57L251.75 791.86L252.18 793.97L251.71 795.38L253.12 799.29L260.16 802.78L260.57 803.8L263.27 804.12L266.44 806.19L267.73 807.92L265.05 813.27L263.14 813.81L261.54 816.28L261.86 817.28L263.6 818.11L262.22 822.24L264.24 824.12L266.28 824.88L266.71 825.83L266.04 829.23L263.62 831.09L263.33 834.78L259.22 834.2L255.22 835.08L254.43 837.19L255.15 841.18L253.77 846.39L247.31 854.23L247.2 860.38L240.89 866.0L240.49 867.44L238.71 869.34L238.32 874.4L236.27 875.2L232.27 874.8L228.4 871.73L226.17 872.53L225.28 876.16L226.39 879.63L223.59 883.1L221.25 891.4L216.98 893.34L214.34 897.84L210.88 898.49L205.5 895.29L202.92 896.65L199.96 896.44L197.86 894.46L195.29 889.78L191.88 887.86L190.49 888.31L185.08 894.32L182.24 895.15L178.62 894.57L176.35 898.09L173.71 899.26L171.7 899.39L168.58 897.05L165.14 896.68L163.84 897.31L160.62 901.67L155.28 902.94L154.96 905.13L155.87 908.61L155.16 911.69L153.0 912.72L149.96 911.88L146.46 913.67L145.1 914.95L145.04 916.74L141.81 917.15L139.34 921.44L139.24 924.13L135.25 927.58L134.38 925.71L133.4 925.8Z","cx":146.8,"cy":750.1},{"territorio":"Cocais - PI","curto":"Cocais","d":"M497.65 248.37L495.25 249.25L479.26 229.24L475.96 227.64L480.1 214.3L478.74 211.99L478.14 211.98L478.25 210.75L476.28 210.69L474.75 208.1L472.39 207.5L471.97 206.55L471.33 206.87L469.04 202.74L467.5 201.84L466.2 202.43L463.54 200.47L462.93 198.74L461.14 198.14L459.33 198.76L456.8 197.64L455.76 198.05L454.48 195.57L451.75 193.59L448.89 192.94L449.26 191.26L448.17 189.96L451.13 188.81L451.13 180.73L447.77 180.11L443.97 180.92L437.68 179.89L437.29 180.86L429.43 180.64L430.5 181.6L429.7 183.98L430.79 184.82L431.42 186.84L430.91 188.99L431.84 191.93L430.6 193.19L401.49 187.72L397.63 188.8L390.37 188.92L382.83 176.85L378.07 158.81L374.57 161.02L372.42 160.06L368.1 156.01L363.33 148.16L363.65 145.94L369.94 140.88L371.16 136.0L375.09 128.32L376.95 126.65L375.31 123.69L376.97 120.27L375.35 116.37L375.96 113.7L380.03 108.88L381.87 107.93L383.52 103.41L388.19 101.18L392.0 95.86L391.82 93.76L392.42 92.86L394.97 91.32L395.88 87.82L397.11 87.95L397.56 91.06L399.98 92.13L401.44 91.27L403.22 88.59L404.62 88.77L404.87 90.45L406.25 90.95L407.31 90.1L407.61 87.8L410.55 88.38L414.48 86.25L418.4 88.46L424.23 86.16L427.87 86.53L428.71 85.69L428.5 86.47L429.25 85.26L429.47 82.47L430.29 81.65L434.3 81.03L435.37 77.9L437.37 77.2L437.29 76.31L444.1 81.9L440.24 86.82L442.37 88.18L445.57 87.92L446.23 90.62L445.22 92.64L448.85 94.25L453.98 94.5L454.05 96.13L460.81 96.9L461.38 97.61L460.68 99.55L458.65 101.41L459.19 103.15L457.91 105.07L457.8 108.6L459.44 109.4L459.64 113.74L465.98 118.6L474.01 107.69L476.38 101.89L479.31 103.45L479.42 113.16L486.91 112.26L490.12 109.48L503.98 105.63L508.08 111.04L511.37 112.83L512.36 116.51L512.23 121.01L515.75 122.27L517.69 119.68L520.44 117.59L522.13 117.34L523.04 116.23L524.89 116.38L525.06 114.44L529.88 115.08L531.15 116.32L533.8 116.61L535.59 117.67L535.68 118.48L534.2 118.87L533.46 119.93L533.17 122.72L533.95 124.7L528.77 130.47L529.4 130.91L530.25 130.02L531.43 130.39L532.44 134.48L534.67 136.78L534.93 138.58L536.75 140.1L537.71 143.45L536.74 146.45L536.15 146.41L534.49 148.9L535.65 151.78L533.66 153.97L534.39 154.29L541.56 151.98L543.08 153.7L549.47 154.61L549.49 155.88L548.04 156.96L548.58 158.74L546.26 164.04L547.93 165.74L549.02 168.66L552.06 169.23L547.07 176.35L548.93 184.58L548.81 187.29L547.34 188.37L544.39 193.02L544.43 196.3L542.49 199.76L542.44 202.73L541.14 205.1L540.98 208.13L539.53 209.58L539.08 211.75L537.57 213.98L535.24 214.43L537.6 215.27L536.25 218.63L536.7 219.91L542.85 225.37L537.31 231.27L535.89 233.28L536.05 234.15L534.37 235.29L534.63 235.84L529.39 241.85L514.54 242.16L497.65 248.37Z","cx":457.7,"cy":162.8},{"territorio":"Entre Rios - PI","curto":"Entre Rios","d":"M415.76 402.24L416.62 408.87L419.85 409.64L419.0 412.1L418.94 420.07L411.83 433.78L386.56 433.88L385.35 430.65L378.71 432.26L363.4 434.17L357.81 454.88L356.09 450.0L351.78 449.39L349.61 448.17L350.66 442.93L353.01 439.9L352.49 436.05L354.51 433.08L352.76 432.5L353.05 431.21L355.0 429.74L353.78 422.46L356.05 419.26L356.6 415.84L359.16 413.4L358.3 412.04L356.34 412.97L355.73 412.62L357.2 407.21L355.19 401.98L353.85 400.82L352.06 400.85L349.93 399.76L347.55 397.13L343.7 395.46L341.87 389.35L339.56 388.01L336.43 387.93L335.23 387.22L333.56 383.44L331.9 381.54L331.85 379.92L333.98 378.46L334.9 375.63L334.53 374.2L331.49 371.68L330.59 369.86L330.49 366.57L329.09 364.38L331.72 360.4L329.42 356.09L330.04 353.57L328.98 347.9L329.57 346.33L331.32 346.3L331.7 345.53L330.32 339.16L331.07 335.45L329.22 333.72L330.72 330.55L336.38 329.43L337.51 325.88L339.63 323.77L340.75 319.83L343.07 317.46L343.71 313.56L348.04 312.0L350.43 306.91L353.13 306.74L355.21 304.18L359.3 302.09L360.97 297.33L361.15 294.8L359.23 289.74L361.95 286.06L362.64 283.35L360.35 273.25L358.14 270.48L357.8 266.18L355.96 261.5L355.53 259.34L356.41 255.67L354.88 254.56L351.73 250.08L351.59 244.99L346.96 241.22L345.62 237.94L345.94 236.44L348.42 234.59L349.07 232.89L348.76 231.35L345.74 228.95L345.35 227.3L349.87 222.99L354.75 214.52L354.12 210.39L355.71 208.09L356.93 204.42L353.93 202.32L354.42 198.33L353.53 197.03L347.84 193.05L345.68 193.63L344.46 192.79L344.4 187.73L342.15 183.61L341.4 176.96L342.22 174.23L347.3 168.27L352.63 167.57L352.7 166.68L350.86 164.98L350.98 164.05L353.89 162.44L355.43 160.5L359.79 149.16L360.71 148.65L361.77 149.72L362.64 149.66L363.45 147.69L368.1 156.01L372.42 160.06L374.57 161.02L378.07 158.81L382.83 176.85L390.37 188.92L389.36 191.38L390.57 190.88L398.62 198.97L401.83 199.68L404.53 202.79L402.87 203.85L418.37 212.13L413.95 225.84L410.23 244.17L416.46 255.79L434.45 270.07L431.94 270.58L432.51 271.42L430.59 273.48L430.74 275.18L429.91 276.2L433.48 277.2L435.59 276.74L437.85 278.26L442.38 276.61L446.92 280.61L451.77 281.63L451.31 285.29L448.95 289.03L451.12 289.77L451.02 291.0L449.52 292.84L451.46 293.78L451.95 295.05L451.16 295.98L448.6 296.47L447.73 297.29L447.21 300.88L448.09 302.11L450.81 301.81L450.57 302.91L452.15 306.4L453.51 307.33L455.62 306.71L457.37 308.65L455.86 312.63L456.11 314.14L454.53 314.97L452.03 318.43L450.71 322.22L447.64 325.4L445.18 325.78L440.49 329.15L436.69 330.52L435.78 332.1L435.38 335.26L433.91 336.09L428.78 336.26L427.94 337.52L425.86 338.34L424.46 338.1L421.24 335.39L419.39 336.88L417.4 336.19L416.89 337.47L417.54 339.52L415.79 339.98L414.6 342.19L415.29 343.58L414.47 348.69L412.68 349.92L412.13 351.89L413.43 354.53L413.03 355.14L415.24 356.76L416.14 356.65L416.55 357.47L410.17 365.39L409.89 368.8L407.75 372.44L417.52 379.48L416.36 383.34L411.81 383.21L407.62 387.51L410.04 390.75L408.41 392.9L409.42 393.54L410.09 395.43L414.33 398.5L415.76 402.24Z","cx":393.2,"cy":301.3},{"territorio":"Planície Litorânea - PI","curto":"Planície Litorânea","d":"M521.42 100.63L521.02 102.14L523.88 103.7L525.38 107.75L524.01 113.53L525.06 114.44L524.89 116.38L523.04 116.23L522.13 117.34L520.44 117.59L517.69 119.68L515.75 122.27L512.23 121.01L512.36 116.51L511.37 112.83L508.08 111.04L503.98 105.63L490.12 109.48L486.91 112.26L479.42 113.16L479.31 103.45L476.38 101.89L474.01 107.69L465.98 118.6L459.64 113.74L459.44 109.4L457.8 108.6L457.91 105.07L459.19 103.15L458.59 101.65L460.68 99.55L461.38 97.61L460.81 96.9L454.05 96.13L453.98 94.5L452.72 94.17L447.35 93.89L445.22 92.64L446.23 90.62L445.57 87.92L442.37 88.18L440.24 86.82L444.1 81.9L436.93 76.02L437.69 73.43L440.07 72.46L440.55 71.5L439.63 70.42L436.47 70.05L436.33 68.65L438.33 66.93L450.04 65.12L454.02 61.39L455.13 57.54L457.87 58.58L457.88 55.79L459.55 52.9L459.76 49.53L463.25 47.72L466.54 42.68L469.97 40.95L470.99 39.43L471.82 35.71L473.73 33.85L472.8 30.63L468.22 26.89L466.11 23.27L466.42 18.42L468.81 16.93L467.93 11.85L470.65 9.91L471.81 8.0L477.42 13.96L479.77 15.48L481.26 15.22L491.13 23.98L494.79 26.11L497.66 26.93L500.13 25.91L502.96 27.21L505.51 27.38L508.74 25.73L513.55 27.44L513.9 26.87L515.72 27.27L517.79 26.56L524.38 29.2L526.34 28.51L526.31 31.9L526.97 32.91L532.05 34.17L534.51 40.36L533.07 43.08L533.67 47.29L531.93 48.74L530.43 49.01L530.47 50.13L526.73 53.75L525.67 55.58L526.36 57.63L518.22 71.63L517.99 74.28L516.4 75.76L515.18 78.43L515.69 79.11L517.86 78.34L517.74 80.78L519.2 81.31L519.21 83.49L523.67 80.81L526.19 80.85L525.87 87.66L526.67 91.91L528.52 92.83L526.18 94.09L526.01 97.81L524.77 99.78L521.42 100.63Z","cx":485.4,"cy":65.1},{"territorio":"Serra Da Capivara - PI","curto":"Serra Da Capivara","d":"M384.28 771.62L382.19 774.38L378.54 774.39L377.14 775.15L374.58 774.89L371.3 773.18L371.63 776.06L368.82 778.97L367.1 779.78L366.28 782.88L360.7 783.47L359.11 778.88L359.28 776.54L358.29 775.4L357.09 775.32L354.28 776.92L350.87 772.74L348.16 772.79L346.18 771.8L344.42 766.32L344.98 762.11L343.17 759.26L341.57 758.61L339.52 759.52L334.43 759.92L333.9 760.61L333.48 757.94L331.36 758.36L330.47 757.07L328.67 756.93L326.94 755.29L325.44 757.02L323.88 755.79L322.62 755.87L320.92 759.72L318.95 760.76L316.44 758.42L313.33 759.79L310.63 759.8L309.28 761.22L307.31 758.13L305.26 757.26L303.64 755.28L300.12 754.45L292.74 744.1L289.32 742.83L286.35 743.28L281.28 747.66L275.97 749.49L271.24 755.25L264.12 760.46L256.84 762.29L253.42 764.39L234.06 733.0L243.76 715.47L252.28 692.45L262.33 681.52L262.07 683.17L312.21 682.76L311.28 684.87L331.71 684.12L333.63 679.32L334.68 679.09L337.01 679.27L338.75 680.64L345.06 681.12L352.03 679.43L370.63 677.88L373.56 663.8L377.17 659.08L380.38 656.31L380.42 649.46L379.76 647.62L381.56 643.05L382.28 636.65L383.71 634.81L387.59 635.06L391.56 633.45L391.69 631.32L390.53 628.56L392.01 626.05L396.57 628.02L400.03 627.14L399.1 612.59L393.13 609.86L402.14 608.15L402.55 609.12L406.63 610.46L407.13 611.63L404.53 612.82L405.6 615.65L407.21 615.7L412.79 619.34L419.88 622.53L423.79 625.46L421.94 627.87L422.07 630.16L426.67 630.18L430.72 631.87L432.7 631.5L435.36 628.5L434.62 627.07L435.94 623.91L445.88 631.87L452.57 634.01L459.61 629.64L463.2 615.87L468.94 614.1L475.9 613.89L480.04 610.68L475.97 614.34L478.32 618.82L480.56 618.97L481.27 620.04L475.21 625.74L475.25 629.03L476.54 633.4L478.99 635.88L486.05 631.61L490.17 635.18L494.39 636.66L497.0 636.83L499.46 635.9L498.53 637.25L499.62 638.92L501.62 639.81L501.97 640.58L501.19 641.16L503.39 644.41L506.32 645.15L506.79 646.97L505.09 649.29L506.98 652.14L506.42 661.8L506.87 664.69L504.12 682.53L505.8 684.29L507.96 683.68L514.24 676.41L515.26 676.7L517.88 680.15L519.84 680.41L518.13 682.93L515.07 691.14L514.22 690.52L509.75 695.71L508.01 695.8L507.27 697.74L505.49 699.44L505.84 701.27L504.26 702.33L503.19 705.24L501.69 706.4L501.58 709.07L499.42 710.04L498.89 708.32L494.93 708.59L492.35 711.69L487.87 712.27L487.81 713.78L486.64 714.77L481.53 715.23L480.57 724.06L473.37 730.07L473.36 732.0L471.17 734.68L469.16 740.68L465.55 740.14L463.95 741.95L461.76 742.64L461.21 744.24L460.29 744.76L456.13 743.1L453.88 741.4L451.19 743.36L448.75 741.53L447.3 742.25L444.06 742.16L440.14 745.03L436.26 745.75L431.27 745.53L428.28 746.38L425.16 745.42L421.34 748.37L416.01 749.12L415.02 750.95L411.56 753.11L411.29 755.93L404.25 760.0L403.66 762.94L402.29 764.78L401.05 765.45L396.91 765.45L397.25 767.9L396.47 769.15L393.23 770.06L390.25 769.26L388.02 769.92L386.1 769.36L384.28 771.62Z","cx":377.0,"cy":695.8},{"territorio":"Tabuleiros Do Alto Parnaiba - PI","curto":"Tabuleiros Do Alto Parnaiba","d":"M135.81 630.59L135.41 635.0L138.36 638.86L138.79 645.05L137.23 648.51L137.47 649.53L136.54 650.02L136.0 654.06L134.99 655.2L135.11 656.95L131.95 660.74L132.25 664.29L130.53 674.54L131.14 675.2L130.84 684.49L126.79 695.85L125.01 697.11L124.08 698.87L123.15 698.58L122.66 699.19L122.92 700.08L121.9 702.17L119.35 705.5L116.51 708.08L112.0 709.9L111.47 711.13L107.99 713.5L100.22 720.83L99.95 721.86L97.99 723.18L96.9 726.44L95.08 728.92L91.59 731.71L89.53 735.68L83.67 740.75L61.52 732.76L59.01 729.26L59.68 725.23L56.86 722.08L55.85 719.15L56.54 717.76L58.12 717.73L61.08 714.75L62.75 710.2L64.5 709.46L66.06 706.09L69.17 702.58L70.76 701.75L71.21 700.18L74.11 698.08L74.89 693.57L74.04 690.62L74.75 689.68L74.12 688.61L74.8 685.4L74.15 683.96L74.91 679.63L75.97 677.67L75.56 674.64L72.2 671.06L71.51 669.03L67.71 664.32L66.23 663.3L62.41 662.42L61.54 660.51L61.22 661.05L60.62 660.0L58.98 659.68L58.91 658.95L58.21 659.4L58.22 658.46L56.12 658.16L56.03 657.3L55.17 657.82L55.32 657.02L54.52 657.33L53.56 656.18L51.39 656.94L49.17 656.59L48.37 655.04L47.31 655.14L47.71 654.14L46.82 653.32L47.26 652.94L46.18 652.88L46.25 652.04L45.3 651.68L44.83 649.24L42.6 646.79L40.88 646.93L40.95 646.05L39.65 645.07L40.57 643.68L40.22 642.24L41.76 641.35L43.21 635.02L44.54 633.22L44.88 628.89L50.81 623.81L50.47 621.79L52.68 620.25L53.77 618.3L53.2 616.11L54.47 613.56L53.43 611.6L55.19 609.12L55.29 606.76L55.99 606.12L54.34 604.0L55.82 602.36L57.28 602.35L55.34 600.0L57.8 596.29L56.57 595.57L57.86 593.92L57.94 591.81L59.25 592.07L60.18 590.83L58.03 589.19L60.49 588.11L58.33 585.47L60.03 584.6L59.88 582.69L61.05 582.05L61.6 578.45L62.93 577.96L62.73 576.57L63.92 576.67L63.6 575.61L64.5 574.09L63.24 572.33L64.78 572.7L64.26 570.19L65.01 568.56L66.34 568.41L66.26 565.69L68.42 565.3L67.16 564.44L67.41 563.81L69.72 564.42L70.27 562.58L71.92 562.25L72.16 560.73L74.01 560.16L74.56 557.12L76.83 557.77L81.45 553.06L85.16 552.81L86.66 551.86L89.29 552.37L92.33 549.91L94.03 552.08L95.62 550.22L97.92 549.27L101.14 545.82L103.07 546.81L108.92 544.64L113.05 545.8L116.22 543.88L117.8 544.02L119.53 542.39L121.71 542.52L125.25 541.01L126.4 541.19L129.23 536.05L132.83 535.63L134.64 533.35L135.1 531.58L137.99 530.55L138.62 528.75L142.59 530.66L146.91 528.82L148.26 532.11L150.22 532.88L151.05 532.29L152.91 532.5L153.91 528.49L155.64 525.43L157.55 524.77L158.21 523.52L160.76 522.82L166.71 513.62L170.93 513.08L172.14 510.17L173.68 508.86L177.76 506.26L180.68 505.6L186.3 501.68L188.75 501.76L192.3 500.3L195.28 501.25L198.8 496.05L198.22 492.81L199.87 490.41L200.18 487.91L203.08 487.91L206.19 484.28L206.9 480.45L208.24 479.61L209.72 479.93L209.97 475.57L211.11 473.91L213.81 472.74L215.37 469.52L215.95 469.21L216.58 471.47L217.67 471.89L218.3 470.02L216.44 467.52L216.6 465.91L219.39 465.89L220.71 467.9L222.4 467.02L223.33 461.94L224.49 462.07L225.55 461.05L230.61 460.7L233.56 458.97L234.87 460.08L235.34 461.63L236.76 462.36L238.82 460.18L242.58 460.76L245.48 458.26L250.54 456.53L251.99 454.48L254.24 455.93L255.8 454.52L259.36 454.79L260.88 454.11L262.08 454.36L262.7 455.32L265.57 454.95L268.88 456.11L275.37 460.73L276.31 460.65L276.87 459.63L278.08 459.89L280.13 464.39L283.97 465.56L285.26 466.56L286.74 469.47L289.42 470.77L290.91 469.87L293.61 470.45L296.77 469.39L296.03 473.77L293.74 475.92L291.22 481.82L306.26 487.07L300.7 511.08L315.19 519.98L304.16 533.57L287.68 550.48L283.93 564.61L306.5 568.22L280.57 592.01L279.19 587.54L254.77 569.69L254.36 571.52L253.65 571.37L253.42 572.83L251.88 573.95L251.48 575.68L252.3 575.4L252.74 576.42L252.7 577.38L251.56 578.32L253.59 581.2L253.52 584.05L252.31 585.76L252.91 586.6L252.19 587.72L252.75 590.63L252.0 591.22L253.0 592.95L252.03 597.7L252.93 598.85L244.09 598.01L218.26 604.02L214.86 631.66L189.01 634.01L183.93 652.75L135.81 630.59Z","cx":177.4,"cy":597.4},{"territorio":"Vale Do Guaribas - PI","curto":"Vale Do Guaribas","d":"M517.88 550.08L519.35 550.77L514.34 558.07L511.3 566.42L510.05 566.67L505.3 563.89L490.4 558.17L492.47 549.7L492.4 543.81L490.68 534.22L494.54 529.38L496.24 520.87L485.67 522.79L483.38 524.74L482.11 521.76L484.67 511.4L481.23 509.43L481.52 506.74L479.02 505.27L477.27 500.1L471.66 495.49L475.77 492.18L480.97 489.95L475.53 483.98L473.71 486.66L472.17 479.14L477.4 479.18L477.79 478.26L484.13 476.9L484.45 478.47L493.07 476.67L494.03 477.59L494.17 474.45L493.66 474.38L494.84 469.29L501.93 458.57L508.93 459.31L507.19 450.62L505.79 446.94L505.73 438.12L514.83 439.14L520.97 442.3L530.87 448.74L529.63 451.39L533.93 452.16L540.3 451.94L541.06 450.16L547.68 449.2L546.27 459.93L551.57 460.64L585.46 431.79L585.71 434.39L590.35 439.1L591.68 443.67L593.0 444.97L591.86 449.2L593.46 451.03L595.38 451.7L601.08 451.86L602.94 454.13L606.29 456.05L620.19 457.95L622.1 460.36L622.95 463.69L623.96 464.37L625.16 466.98L626.86 466.93L629.97 465.18L632.0 465.86L630.16 468.9L625.38 473.16L624.96 477.02L626.01 480.97L625.41 487.3L628.03 488.65L625.62 490.13L624.43 489.9L625.65 491.87L623.92 493.47L622.8 496.08L618.77 501.42L619.37 503.06L616.95 511.81L605.87 512.26L598.63 511.68L592.11 515.62L590.11 515.45L589.53 516.75L584.42 517.46L578.99 520.2L576.27 517.54L565.23 522.45L563.66 517.09L562.56 516.12L561.28 516.74L560.15 516.42L559.25 517.23L557.59 516.87L557.33 519.25L554.68 518.72L552.72 520.09L550.42 518.63L547.33 518.9L545.89 517.16L546.25 511.32L540.36 512.62L539.01 519.08L534.45 519.1L530.69 518.13L527.76 520.41L527.72 524.2L526.46 526.15L523.55 536.02L520.34 543.91L520.17 546.04L517.88 550.08Z","cx":551.8,"cy":499.2},{"territorio":"Vale do Canindé - PI","curto":"Vale do Canindé","d":"M508.39 601.09L508.24 603.79L510.33 604.37L511.28 607.02L512.93 608.06L513.8 610.12L511.85 611.7L513.71 614.76L511.54 616.51L509.21 620.23L511.93 620.98L512.85 622.32L517.85 623.39L519.55 625.35L520.85 624.82L520.59 628.58L517.14 631.15L517.74 632.32L516.72 632.04L516.09 632.69L516.04 634.13L514.52 634.04L512.71 632.34L511.37 632.68L509.54 634.15L509.15 637.25L510.31 638.86L509.51 641.93L504.12 642.79L501.62 639.81L499.62 638.92L498.53 637.25L499.46 635.9L497.0 636.83L494.39 636.66L490.17 635.18L486.05 631.61L478.99 635.88L476.54 633.4L475.25 629.03L475.21 625.74L481.27 620.04L480.56 618.97L478.32 618.82L475.97 614.34L480.04 610.68L475.9 613.89L467.65 614.23L466.76 613.54L467.1 608.1L462.0 602.25L456.93 602.19L451.83 599.21L447.65 597.95L448.77 593.57L444.93 597.84L440.55 595.08L438.88 597.5L436.95 596.05L437.24 594.44L434.17 593.64L432.11 591.54L426.17 590.13L427.3 588.83L425.88 587.77L429.14 577.78L433.32 572.2L417.98 558.74L426.85 558.97L432.28 546.81L426.94 537.4L415.73 536.96L411.16 535.12L392.18 530.28L388.05 532.3L384.11 530.84L377.69 510.86L380.41 505.92L378.5 498.7L379.75 486.47L381.78 487.77L384.48 484.45L388.31 473.3L386.28 470.64L385.46 470.93L384.15 469.71L383.9 466.41L386.8 464.06L387.93 464.18L388.63 460.45L390.31 458.7L389.21 456.79L390.42 456.58L392.22 454.93L393.87 456.58L396.86 455.21L398.84 451.98L398.01 451.72L398.2 450.58L399.51 450.08L400.14 450.85L402.89 450.65L403.65 449.94L404.85 451.01L405.92 449.98L409.52 451.62L411.63 434.93L416.84 433.29L417.29 441.84L428.37 445.78L430.9 448.3L443.99 447.27L451.39 444.9L459.85 448.23L458.63 450.87L460.43 458.78L460.45 468.9L464.88 472.12L471.99 481.29L472.45 480.05L473.71 486.66L475.53 483.98L480.97 489.95L475.77 492.18L471.66 495.49L477.27 500.1L479.02 505.27L481.52 506.74L481.23 509.43L484.67 511.4L482.11 521.76L483.38 524.74L485.67 522.79L496.24 520.87L494.54 529.38L490.68 534.22L492.4 543.81L492.47 549.7L490.4 558.17L505.3 563.89L510.05 566.67L509.16 572.56L519.68 576.77L517.28 587.42L502.28 593.05L508.61 599.48L508.39 601.09Z","cx":449.3,"cy":538.0},{"territorio":"Vale do Rio Itaim - PI","curto":"Vale do Rio Itaim","d":"M514.08 633.74L516.26 634.0L516.09 632.69L516.72 632.04L517.74 632.32L517.14 631.15L520.59 628.58L520.85 624.82L519.55 625.35L517.85 623.39L512.85 622.32L511.93 620.98L509.31 620.4L511.54 616.51L513.71 614.76L511.85 611.93L513.76 609.9L512.93 608.06L511.28 607.02L510.33 604.37L508.24 603.79L508.61 599.48L502.28 593.05L517.28 587.42L519.68 576.77L509.16 572.56L510.05 566.67L511.3 566.42L514.34 558.07L519.35 550.77L517.88 550.08L520.17 546.04L520.34 543.91L523.55 536.02L526.46 526.15L527.72 524.2L527.76 520.41L530.69 518.13L534.45 519.1L539.01 519.08L540.36 512.62L546.25 511.32L545.89 517.16L547.33 518.9L550.42 518.63L552.72 520.09L554.68 518.72L557.33 519.25L557.59 516.87L559.25 517.23L560.15 516.42L561.28 516.74L562.45 516.09L563.66 517.09L565.23 522.45L576.27 517.54L578.99 520.2L584.42 517.46L589.53 516.75L590.11 515.45L592.11 515.62L598.63 511.68L605.87 512.26L616.95 511.81L615.88 517.85L616.28 522.05L613.03 525.49L612.25 532.29L600.73 536.87L599.24 538.86L595.3 539.47L593.71 542.63L596.09 548.75L602.46 556.61L604.09 561.44L602.79 566.56L598.56 570.93L598.54 574.22L601.52 576.7L611.07 579.86L612.72 581.89L613.4 584.6L612.72 596.73L606.19 611.46L607.68 616.36L606.41 616.95L606.39 617.64L602.77 616.43L601.7 618.47L599.16 618.93L598.87 620.72L595.37 623.55L594.63 625.9L592.2 626.06L590.5 627.77L586.29 629.26L586.57 634.74L585.14 636.78L582.18 636.99L582.11 641.67L580.28 643.62L578.77 643.59L577.84 643.49L576.58 641.12L573.97 640.98L573.5 642.17L574.37 644.29L572.4 645.67L573.07 648.22L570.45 651.01L565.98 647.64L564.53 645.63L562.07 645.87L561.33 648.14L557.3 649.92L556.48 654.85L553.39 653.96L552.75 657.16L551.54 659.14L548.09 661.78L547.21 660.83L545.68 660.77L543.42 666.42L542.19 667.56L540.11 667.47L538.59 668.53L539.23 672.07L538.29 673.42L536.21 673.69L533.98 675.33L530.25 675.18L527.94 678.57L524.15 680.66L518.43 680.44L514.35 676.32L509.11 682.72L505.8 684.29L504.12 682.53L506.87 664.69L506.42 661.8L506.98 652.14L505.09 649.29L506.79 646.97L506.32 645.15L503.39 644.41L501.19 641.16L501.97 640.58L504.12 642.79L509.32 642.13L510.31 638.86L509.15 637.25L509.54 634.15L512.11 632.27L514.08 633.74Z","cx":559.1,"cy":597.8},{"territorio":"Vale do Sambito - PI","curto":"Vale do Sambito","d":"M494.84 469.29L493.66 474.38L494.17 474.45L494.03 477.59L493.07 476.67L484.45 478.47L484.13 476.9L477.79 478.26L477.4 479.18L472.17 479.14L471.99 481.29L464.88 472.12L460.45 468.9L460.43 458.78L458.63 450.87L459.85 448.23L451.39 444.9L443.99 447.27L430.9 448.3L428.37 445.78L417.29 441.84L416.8 432.53L412.45 432.5L418.94 420.07L419.0 412.1L419.85 409.64L416.62 408.87L415.75 401.9L414.8 399.36L413.15 397.25L410.09 395.43L409.42 393.54L408.41 392.9L410.04 390.75L407.62 387.51L411.81 383.21L416.36 383.34L417.52 379.48L407.75 372.44L409.89 368.8L410.17 365.39L416.55 357.47L416.14 356.65L415.24 356.76L413.03 355.14L413.43 354.53L412.13 351.89L412.68 349.92L414.47 348.69L415.29 343.58L414.57 342.31L415.79 339.98L417.54 339.52L416.89 337.47L417.4 336.19L419.39 336.88L421.24 335.39L424.46 338.1L425.86 338.34L427.94 337.52L428.78 336.26L431.79 335.73L433.91 336.09L436.86 338.01L438.1 337.91L440.26 341.64L439.46 346.38L440.28 346.91L441.13 346.34L441.67 347.81L442.79 346.72L445.52 347.41L448.8 349.25L450.44 348.38L453.3 350.06L453.68 352.46L455.07 353.15L456.39 352.7L456.74 353.63L458.37 352.41L458.83 353.36L462.51 353.21L464.45 354.95L468.61 355.03L470.47 354.28L472.0 354.63L475.09 352.36L475.89 353.36L479.74 351.58L482.46 351.57L489.35 368.12L486.89 379.08L491.22 383.7L494.92 385.2L496.02 384.35L496.07 385.7L506.65 388.11L505.65 392.26L515.94 389.87L521.31 391.95L521.84 395.38L526.82 393.25L525.48 390.38L533.4 387.82L572.55 380.62L574.99 380.76L576.26 381.76L579.27 390.59L578.39 393.78L579.1 398.25L578.55 400.64L581.73 404.48L583.18 407.72L585.73 409.66L586.34 411.05L586.44 415.0L583.77 419.67L584.78 423.62L584.72 428.41L585.46 431.79L551.57 460.64L546.27 459.93L547.68 449.2L541.06 450.16L540.3 451.94L533.93 452.16L529.63 451.39L530.87 448.74L520.97 442.3L514.83 439.14L505.73 438.12L505.79 446.94L507.19 450.62L508.93 459.31L501.93 458.57L494.84 469.29Z","cx":497.0,"cy":408.3},{"territorio":"Vale dos Rios Piauí e Itaueira - PI","curto":"Vale dos Rios Piauí e Itaueira","d":"M383.71 634.81L382.19 636.84L381.56 643.05L379.87 646.66L380.38 656.31L377.17 659.08L373.56 663.8L370.63 677.88L352.03 679.43L345.06 681.12L338.75 680.64L337.01 679.27L334.46 679.11L333.63 679.32L331.71 684.12L311.28 684.87L312.21 682.76L262.07 683.17L270.24 630.44L275.89 629.56L282.31 619.63L282.66 617.37L285.59 614.3L285.51 607.94L280.57 592.01L306.5 568.22L283.93 564.61L287.68 550.48L304.16 533.57L315.19 519.98L300.7 511.08L306.26 487.07L291.22 481.82L293.74 475.92L296.03 473.77L296.99 467.74L299.82 467.69L301.49 465.3L305.55 465.7L309.29 465.13L313.07 461.72L320.42 461.77L324.01 463.61L328.55 462.22L331.11 459.67L332.92 459.8L335.02 461.17L338.99 460.92L341.18 459.37L342.55 456.36L346.79 453.76L349.12 450.9L349.61 448.17L351.78 449.39L356.09 450.0L357.81 454.88L363.4 434.17L378.71 432.26L385.35 430.65L386.56 433.88L411.83 433.78L412.45 432.5L416.8 432.53L416.84 433.29L411.63 434.93L409.52 451.62L405.92 449.98L404.85 451.01L403.65 449.94L402.89 450.65L400.14 450.85L399.51 450.08L398.2 450.58L398.01 451.72L398.84 451.98L396.86 455.21L393.87 456.58L392.22 454.93L390.42 456.58L389.21 456.79L390.31 458.7L388.63 460.45L387.93 464.18L386.8 464.06L383.9 466.41L384.15 469.71L385.46 470.93L386.28 470.64L388.31 473.3L384.48 484.45L381.78 487.77L379.75 486.47L378.5 498.7L380.41 505.92L377.69 510.86L384.11 530.84L388.05 532.3L392.18 530.28L411.16 535.12L415.73 536.96L426.94 537.4L432.28 546.81L426.85 558.97L417.98 558.74L433.32 572.2L429.14 577.78L425.88 587.77L427.3 588.83L426.17 590.13L432.11 591.54L434.17 593.64L437.24 594.44L436.95 596.05L438.88 597.5L440.55 595.08L444.93 597.84L448.77 593.57L447.65 597.95L451.83 599.21L456.93 602.19L462.0 602.25L467.1 608.1L466.76 613.54L468.94 614.1L463.2 615.87L459.61 629.64L452.57 634.01L445.88 631.87L435.94 623.91L434.62 627.07L435.36 628.5L432.7 631.5L430.72 631.87L426.67 630.18L422.07 630.16L421.94 627.87L423.79 625.46L419.88 622.53L412.79 619.34L407.21 615.7L405.6 615.65L404.53 612.82L407.13 611.63L406.63 610.46L402.55 609.12L402.14 608.15L393.13 609.86L399.1 612.59L400.03 627.14L396.57 628.02L392.01 626.05L390.53 628.56L391.69 631.32L391.56 633.45L387.59 635.06L383.71 634.81Z","cx":365.5,"cy":557.8}]}}
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+  var PROJETOS = DATA.projetos;
+  var MAP = DATA.map;
+
+  var TERR_COLORS = {
+    "Carnaubais":"#1b805a","Chapada das Mangabeiras":"#c2185b","Cocais":"#e0b400",
+    "Entre Rios":"#5b3a78","Planície Litorânea":"#2f9fc4","Serra Da Capivara":"#e07b2a",
+    "Tabuleiros Do Alto Parnaiba":"#8bb43a","Vale Do Guaribas":"#2f5fa8",
+    "Vale do Canindé":"#8a5a3b","Vale do Rio Itaim":"#6b8f71","Vale do Sambito":"#b5563f",
+    "Vale dos Rios Piauí e Itaueira":"#d98aa8"
+  };
+  var MACRO_ORDER = DATA.macros;
+  var TERR_ORDER = DATA.territorios;
+
+  var state = { macro: null, terr: null };
+
+  function fmtBRL(v){
+    return "R$ " + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+  function norm(s){ return (s||"").toLowerCase(); }
+
+  function filtered(){
+    return PROJETOS.filter(function(p){
+      if (state.macro && p.macro !== state.macro) return false;
+      if (state.terr && p.territorio !== state.terr) return false;
+      return true;
+    });
+  }
+
+  /* ---------- build map ---------- */
+  var svg = document.getElementById('mapSvg');
+  svg.setAttribute('viewBox', '0 0 ' + MAP.viewW + ' ' + MAP.viewH);
+  var mapTip = document.getElementById('mapTip');
+  var mapWrap = document.getElementById('mapWrap');
+
+  MAP.territorios.forEach(function(t){
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', t.d);
+    path.setAttribute('class','terr-path');
+    path.setAttribute('fill', TERR_COLORS[t.curto] || '#999');
+    path.setAttribute('data-terr', t.curto);
+    path.addEventListener('click', function(){ openTerrModal(t.curto); });
+    path.addEventListener('mousemove', function(ev){ showTip(ev, t.curto); });
+    path.addEventListener('mouseleave', hideTip);
+    svg.appendChild(path);
+  });
+  MAP.territorios.forEach(function(t){
+    var txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x', t.cx); txt.setAttribute('y', t.cy);
+    txt.setAttribute('text-anchor','middle'); txt.setAttribute('class','terr-label');
+    txt.setAttribute('data-terr', t.curto);
+    txt.textContent = TERR_ORDER.indexOf(t.curto) + 1;
+    txt.style.pointerEvents = 'none';
+    svg.appendChild(txt);
+  });
+
+  function showTip(ev, curto){
+    var rect = mapWrap.getBoundingClientRect();
+    mapTip.textContent = curto;
+    mapTip.style.left = (ev.clientX - rect.left) + 'px';
+    mapTip.style.top = (ev.clientY - rect.top) + 'px';
+    mapTip.style.opacity = 1;
+  }
+  function hideTip(){ mapTip.style.opacity = 0; }
+
+  /* ---------- filter pills ---------- */
+  var macroFiltersEl = document.getElementById('macroFilters');
+  var terrFiltersEl = document.getElementById('terrFilters');
+
+  function pill(label, active, onClick){
+    var b = document.createElement('button');
+    b.className = 'pill'; b.type = 'button'; b.textContent = label;
+    b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function toggleMacro(m){ state.macro = (state.macro === m) ? null : m; render(); }
+  function toggleTerr(t){ state.terr = (state.terr === t) ? null : t; render(); }
+
+  function buildFilterPills(){
+    macroFiltersEl.innerHTML = '';
+    macroFiltersEl.appendChild(pill('Todas', state.macro===null, function(){ state.macro=null; render(); }));
+    MACRO_ORDER.forEach(function(m){
+      macroFiltersEl.appendChild(pill(m, state.macro===m, function(){ toggleMacro(m); }));
+    });
+    terrFiltersEl.innerHTML = '';
+    terrFiltersEl.appendChild(pill('Todos', state.terr===null, function(){ state.terr=null; render(); }));
+    TERR_ORDER.forEach(function(t){
+      terrFiltersEl.appendChild(pill(t, state.terr===t, function(){ toggleTerr(t); }));
+    });
+  }
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    state = { macro:null, terr:null };
+    render();
+  });
+
+  /* ---------- project card (used by the territory popup) ---------- */
+  function projCardHtml(p, opts){
+    opts = opts || {};
+    var benefHtml = p.beneficiarios ?
+      '<div class="pbenef"><b>Beneficiários:</b> ' + escapeHtml(p.beneficiarios) + '</div>' : '';
+    var terrBadge = opts.hideTerr ? '' : '<span class="badge">' + escapeHtml(p.territorio) + '</span>';
+    return (
+      '<div class="proj">' +
+        '<div class="ptop">' +
+          '<a class="ptitle" href="' + p.url + '" target="_blank" rel="noopener">' + escapeHtml(p.titulo) + '</a>' +
+          '<span class="pvalue num">' + fmtBRL(p.valor||0) + '</span>' +
+        '</div>' +
+        '<div class="pmeta">' +
+          terrBadge +
+          '<span class="badge clay">' + escapeHtml(p.macro) + '</span>' +
+          '<span><b>Município:</b> ' + escapeHtml(p.municipio||'—') + '</span>' +
+          '<span><b>Autores:</b> ' + escapeHtml(p.autores||'—') + '</span>' +
+        '</div>' + benefHtml +
+      '</div>'
+    );
+  }
+
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  /* ---------- KPIs ---------- */
+  function buildKpis(list){
+    document.getElementById('kpiCount').textContent = list.length;
+    var val = list.reduce(function(a,p){ return a + (p.valor||0); }, 0);
+    document.getElementById('kpiValor').textContent = fmtBRL(val);
+    var terrSet = {}; list.forEach(function(p){ terrSet[p.territorio]=1; });
+    document.getElementById('kpiTerr').textContent = Object.keys(terrSet).length + ' / 12';
+    var macroSet = {}; list.forEach(function(p){ macroSet[p.macro]=1; });
+    document.getElementById('kpiMacro').textContent = Object.keys(macroSet).length + ' / 4';
+  }
+
+  /* ---------- contratos e valores por macrorregião (totais reais; clique filtra a macro) ---------- */
+  var macroKpisEl = document.getElementById('macroKpis');
+  function buildMacroKpis(){
+    macroKpisEl.innerHTML = '';
+    MACRO_ORDER.forEach(function(m){
+      var rows = PROJETOS.filter(function(p){ return p.macro === m; });
+      var val = rows.reduce(function(a,p){ return a + (p.valor||0); }, 0);
+      var el = document.createElement('div');
+      el.className = 'mkpi';
+      el.setAttribute('aria-pressed', state.macro === m ? 'true' : 'false');
+      el.innerHTML =
+        '<div class="mname">' + m + '</div>' +
+        '<div class="mcount num">' + rows.length + ' <small>' + (rows.length === 1 ? 'contrato' : 'contratos') + '</small></div>' +
+        '<div class="mvalue num">' + fmtBRL(val) + '</div>';
+      el.addEventListener('click', function(){ toggleMacro(m); });
+      macroKpisEl.appendChild(el);
+    });
+  }
+
+  /* ---------- map highlight state ---------- */
+  function updateMap(list){
+    var activeTerrs = {};
+    list.forEach(function(p){ activeTerrs[p.territorio] = 1; });
+    var anyFilter = !!(state.macro || state.terr);
+    document.querySelectorAll('.terr-path, .terr-label').forEach(function(el){
+      var t = el.getAttribute('data-terr');
+      var dim = anyFilter && !activeTerrs[t];
+      el.classList.toggle('dim', dim);
+    });
+  }
+
+  /* ---------- territory popup ---------- */
+  var modalBackdrop = document.getElementById('modalBackdrop');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalCount = document.getElementById('modalCount');
+  var modalSwatch = document.getElementById('modalSwatch');
+  var modalBody = document.getElementById('modalBody');
+  var modalClose = document.getElementById('modalClose');
+
+  function openTerrModal(curto){
+    var rows = PROJETOS.filter(function(p){ return p.territorio === curto; });
+    var val = rows.reduce(function(a,p){ return a + (p.valor||0); }, 0);
+    modalTitle.textContent = curto;
+    modalCount.textContent = rows.length + (rows.length===1?' projeto · ':' projetos · ') + fmtBRL(val);
+    modalSwatch.style.background = TERR_COLORS[curto] || '#999';
+    modalBody.innerHTML = rows.map(function(p){ return projCardHtml(p, {hideTerr:true}); }).join('');
+    modalBackdrop.classList.add('open');
+  }
+  function closeModal(){ modalBackdrop.classList.remove('open'); }
+  modalClose.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', function(e){ if (e.target === modalBackdrop) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+
+  /* ---------- theme toggle ---------- */
+  var themeBtn = document.getElementById('themeBtn');
+  var root = document.documentElement;
+  function applyTheme(th){
+    root.setAttribute('data-theme', th);
+    themeBtn.textContent = th === 'dark' ? '☀ Modo claro' : '☾ Modo escuro';
+  }
+  var savedTheme = 'light';
+  try { savedTheme = localStorage.getItem('jrt-theme') || 'light'; } catch(e){}
+  applyTheme(savedTheme);
+  themeBtn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('jrt-theme', next); } catch(e){}
+  });
+
+  /* ---------- render ---------- */
+  function render(){
+    buildFilterPills();
+    var list = filtered();
+    buildKpis(list);
+    buildMacroKpis();
+    updateMap(list);
+  }
+
+  render();
+})();
+</script>
