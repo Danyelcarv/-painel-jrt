@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portfólio JRT Piauí</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +47,7 @@
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
   }
 
+  html{ -webkit-text-size-adjust:100%; }
   *{box-sizing:border-box;}
   body{
     background:var(--bg-page);
@@ -196,11 +202,59 @@
   .terrlayout{ display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start; }
   .terrmapcard{ flex:0 0 300px; padding:14px; }
   .terrmapcard svg{ width:100%; height:auto; display:block; margin:0 auto; }
-  .projgrid{ flex:1 1 480px; display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); grid-auto-rows:1fr; gap:10px; align-items:stretch; }
+  .projgrid{ flex:1 1 480px; display:grid; grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr)); grid-auto-rows:1fr; gap:10px; align-items:stretch; }
   .terr-path.current{ stroke:var(--ink-primary); stroke-width:2.4; }
   @media (max-width:720px){ .terrmapcard{ flex:1 1 100%; } .terrkpis{ grid-template-columns:1fr; } }
-</style>
 
+  /* ---------- responsivo ---------- */
+  .filtertoggle{ display:none; }
+  @media (max-width:1290px){
+    .filtertoggle{
+      display:flex; align-items:center; gap:8px; width:100%; font:inherit; font-size:14px; font-weight:700;
+      color:var(--ink-primary); background:var(--bg-surface); border:1px solid var(--border-strong);
+      border-radius:12px; padding:12px 14px; cursor:pointer; box-shadow:var(--shadow);
+    }
+    .filtertoggle .fchev{ margin-left:auto; transition:transform .15s; }
+    .filtercol.open .filtertoggle .fchev{ transform:rotate(180deg); }
+    .filtertoggle .fcount{ background:var(--accent); color:var(--accent-ink); border-radius:999px; font-size:11px; padding:1px 8px; }
+    .filterbar{ display:none; margin-top:8px; }
+    .filtercol.open .filterbar{ display:flex; }
+    .leftcol{ align-self:auto; }
+    .kpis, .macrokpis{ flex:none; grid-template-rows:none; }
+    .homegrid .card{ width:100%; }
+    .homegrid .card .mapwrap{ min-height:0; }
+  }
+  @media (max-width:720px){
+    body{ padding-inline:12px; }
+    .masthead{ padding-bottom:10px; }
+    .masthead h1{ font-size:26px; }
+    .themebtn{ margin-left:0; }
+    .kpis{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .kpis .kpi:nth-child(2){ grid-column:1 / -1; order:-1; }
+    .kpis .kpi:nth-child(4){ grid-column:1 / -1; }
+    .kpi{ padding:10px 12px; }
+    .kpi .label{ font-size:11px; }
+    .kpi .value{ font-size:20px; }
+    .macrokpis{ gap:10px; }
+    .mkpi .mcount{ font-size:16px; }
+    .mkpi .mvalue{ font-size:12.5px; }
+    .pill{ font-size:12.5px; padding:7px 12px; }
+    .resetlink{ font-size:13px; padding:8px 4px; }
+    .mapwrap svg{ max-width:340px; }
+    .homegrid .card{ padding:14px; }
+    .backbtn{ font-size:13px; padding:9px 16px; }
+    .terrhead h2{ font-size:20px; }
+    .terrmapcard{ flex:1 1 100%; }
+    .terrmapcard svg{ max-width:260px; }
+    .projgrid{ flex:1 1 100%; grid-template-columns:minmax(0,1fr); }
+    .proj .ptop{ flex-direction:column; gap:4px; }
+    .terrkpis{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .terrkpis .kpi:nth-child(2){ grid-column:1 / -1; order:-1; }
+    .projgrid{ grid-auto-rows:auto; }
+  }
+</style>
+</head>
+<body>
 <div class="wrap">
 
   <header class="masthead">
@@ -211,7 +265,8 @@
 
   <div id="viewHome">
   <div class="homegrid">
-    <div class="filtercol">
+    <div class="filtercol" id="filtercol">
+      <button class="filtertoggle" id="filterToggle" type="button" aria-expanded="false"><span>☰ Filtros</span><span class="fcount" id="filterCount" hidden></span><span class="fchev">▾</span></button>
       <div class="filterbar" id="filterbar">
         <div class="filtergroup">
           <span class="flabel">Macrorregião</span>
@@ -242,7 +297,7 @@
 
     <div class="card">
       <h2>Territórios de Desenvolvimento</h2>
-      <p class="sub">Clique em um território do mapa pra abrir a página dele com os projetos. Os filtros à esquerda destacam territórios e atualizam os números.</p>
+      <p class="sub">Clique em um território do mapa pra abrir a página dele com os projetos. Os filtros destacam territórios e atualizam os números.</p>
       <div class="mapwrap" id="mapWrap">
         <svg id="mapSvg" viewBox="0 0 640 940" xmlns="http://www.w3.org/2000/svg"></svg>
         <div class="map-tip" id="mapTip"></div>
@@ -580,6 +635,20 @@
     try { localStorage.setItem('jrt-theme', next); } catch(e){}
   });
 
+  /* ---------- filtros recolhiveis em tela estreita ---------- */
+  var filtercolEl = document.getElementById('filtercol');
+  var filterToggleEl = document.getElementById('filterToggle');
+  var filterCountEl = document.getElementById('filterCount');
+  filterToggleEl.addEventListener('click', function(){
+    var open = filtercolEl.classList.toggle('open');
+    filterToggleEl.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  function updateFilterCount(){
+    var n = (state.macro ? 1 : 0) + (state.terr ? 1 : 0) + (state.tema ? 1 : 0);
+    filterCountEl.hidden = n === 0;
+    filterCountEl.textContent = n;
+  }
+
   /* ---------- render ---------- */
   function render(){
     sanitizeState();
@@ -588,9 +657,12 @@
     buildKpis(list);
     buildMacroKpis();
     updateMap(list);
+    updateFilterCount();
   }
 
   render();
   route();
 })();
 </script>
+</body>
+</html>
