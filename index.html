@@ -465,15 +465,13 @@
     });
     if (opts.labels){
       MAP.territorios.forEach(function(t){
-        var color = TERR_COLORS[t.curto] || '#999';
-        var light = inkOn(color) !== '#ffffff';
         var lines = wrapName(LABEL_NAME[t.curto] || t.curto, 12);
         var txt = document.createElementNS('http://www.w3.org/2000/svg','text');
         txt.setAttribute('x', t.cx); txt.setAttribute('text-anchor','middle');
         txt.setAttribute('class','terr-label');
         txt.setAttribute('data-terr', t.curto);
-        txt.setAttribute('fill', light ? '#1c1424' : '#ffffff');
-        txt.setAttribute('stroke', light ? 'rgba(255,255,255,.85)' : 'rgba(20,12,28,.55)');
+        txt.setAttribute('fill', '#111111');
+        txt.setAttribute('stroke', '#ffffff');
         txt.setAttribute('y', t.cy - (lines.length - 1) * 8);
         lines.forEach(function(ln, i){
           var ts = document.createElementNS('http://www.w3.org/2000/svg','tspan');
