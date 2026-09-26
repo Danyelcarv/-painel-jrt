@@ -91,6 +91,7 @@
   }
   .filtergroup{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
   .filtergroup > div{ display:flex; flex-wrap:wrap; gap:4px; }
+  .fhint{ font-style:normal; font-weight:500; text-transform:none; letter-spacing:0; opacity:.8; }
   .filtergroup .flabel{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); }
   .pill{
     border:1px solid var(--border-strong); background:var(--bg-surface-2); color:var(--ink-secondary);
@@ -271,7 +272,7 @@
       <button class="filtertoggle" id="filterToggle" type="button" aria-expanded="false"><span>☰ Filtros</span><span class="fcount" id="filterCount" hidden></span><span class="fchev">▾</span></button>
       <div class="filterbar" id="filterbar">
         <div class="filtergroup">
-          <span class="flabel">Macrorregião</span>
+          <span class="flabel">Macrorregião <em class="fhint">(escolha uma ou mais)</em></span>
           <div id="macroFilters"></div>
         </div>
         <div class="filtergroup">
@@ -375,7 +376,7 @@
     return Object.keys(c).sort(function(a,b){ return c[b]-c[a] || a.localeCompare(b, 'pt-BR'); });
   })();
 
-  var state = { macro: null, terr: null, tema: null };
+  var state = { macro: [], terr: [], tema: [] };
 
   function fmtBRL(v){
     return "R$ " + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -383,19 +384,15 @@
   function norm(s){ return (s||"").toLowerCase(); }
 
   function filtered(){
-    return PROJETOS.filter(function(p){
-      if (state.macro && p.macro !== state.macro) return false;
-      if (state.terr && p.territorio !== state.terr) return false;
-      if (state.tema && p.temaG !== state.tema) return false;
-      return true;
-    });
+    return PROJETOS.filter(function(p){ return matches(p, state, null); });
   }
 
   /* ---------- interacao entre filtros: cada grupo so oferece valores que existem nos outros filtros ---------- */
+  function inSel(arr, v){ return arr.length === 0 || arr.indexOf(v) !== -1; }
   function matches(p, s, skip){
-    if (skip !== 'macro' && s.macro && p.macro !== s.macro) return false;
-    if (skip !== 'terr' && s.terr && p.territorio !== s.terr) return false;
-    if (skip !== 'tema' && s.tema && p.temaG !== s.tema) return false;
+    if (skip !== 'macro' && !inSel(s.macro, p.macro)) return false;
+    if (skip !== 'terr'  && !inSel(s.terr,  p.territorio)) return false;
+    if (skip !== 'tema'  && !inSel(s.tema,  p.temaG)) return false;
     return true;
   }
   function availability(){
@@ -410,9 +407,10 @@
   function sanitizeState(){
     for (var i = 0; i < 3; i++){
       var av = availability(), changed = false;
-      if (state.macro && !av.macro[state.macro]){ state.macro = null; changed = true; }
-      if (state.terr && !av.terr[state.terr]){ state.terr = null; changed = true; }
-      if (state.tema && !av.tema[state.tema]){ state.tema = null; changed = true; }
+      ['macro','terr','tema'].forEach(function(g){
+        var keep = state[g].filter(function(v){ return av[g][v]; });
+        if (keep.length !== state[g].length){ state[g] = keep; changed = true; }
+      });
       if (!changed) break;
     }
   }
@@ -519,31 +517,36 @@
     return b;
   }
 
-  function toggleMacro(m){ state.macro = (state.macro === m) ? null : m; render(); }
-  function toggleTema(t){ state.tema = (state.tema === t) ? null : t; render(); }
-  function toggleTerr(t){ state.terr = (state.terr === t) ? null : t; render(); }
+  function toggleIn(g, v){
+    var i = state[g].indexOf(v);
+    if (i === -1){ state[g].push(v); } else { state[g].splice(i, 1); sanitizeState(); }
+    render();
+  }
+  function toggleMacro(m){ toggleIn('macro', m); }
+  function toggleTema(t){ toggleIn('tema', t); }
+  function toggleTerr(t){ toggleIn('terr', t); }
 
   function buildFilterPills(){
     var av = availability();
     macroFiltersEl.innerHTML = '';
-    macroFiltersEl.appendChild(pill('Todas', state.macro===null, function(){ state.macro=null; render(); }));
+    macroFiltersEl.appendChild(pill('Todas', state.macro.length===0, function(){ state.macro=[]; render(); }));
     MACRO_ORDER.forEach(function(m){
-      macroFiltersEl.appendChild(pill(m, state.macro===m, function(){ toggleMacro(m); }, null, !av.macro[m]));
+      macroFiltersEl.appendChild(pill(m, state.macro.indexOf(m)!==-1, function(){ toggleMacro(m); }, null, !av.macro[m] && state.macro.indexOf(m) === -1));
     });
     terrFiltersEl.innerHTML = '';
-    terrFiltersEl.appendChild(pill('Todos', state.terr===null, function(){ state.terr=null; render(); }));
+    terrFiltersEl.appendChild(pill('Todos', state.terr.length===0, function(){ state.terr=[]; render(); }));
     TERR_ORDER.forEach(function(t){
-      terrFiltersEl.appendChild(pill(t, state.terr===t, function(){ toggleTerr(t); }, TERR_COLORS[t], !av.terr[t]));
+      terrFiltersEl.appendChild(pill(t, state.terr.indexOf(t)!==-1, function(){ toggleTerr(t); }, TERR_COLORS[t], !av.terr[t] && state.terr.indexOf(t) === -1));
     });
     temaFiltersEl.innerHTML = '';
-    temaFiltersEl.appendChild(pill('Todos', state.tema===null, function(){ state.tema=null; render(); }));
+    temaFiltersEl.appendChild(pill('Todos', state.tema.length===0, function(){ state.tema=[]; render(); }));
     TEMA_ORDER.forEach(function(t){
-      temaFiltersEl.appendChild(pill(t, state.tema===t, function(){ toggleTema(t); }, null, !av.tema[t]));
+      temaFiltersEl.appendChild(pill(t, state.tema.indexOf(t)!==-1, function(){ toggleTema(t); }, null, !av.tema[t] && state.tema.indexOf(t) === -1));
     });
   }
 
   document.getElementById('resetBtn').addEventListener('click', function(){
-    state = { macro:null, terr:null, tema:null };
+    state = { macro:[], terr:[], tema:[] };
     render();
   });
 
@@ -592,7 +595,7 @@
   var macroKpisEl = document.getElementById('macroKpis');
   function buildMacroKpis(){
     var availMacro = availability().macro;
-    document.getElementById('macroKpisTitle').textContent = (state.terr || state.tema) ?
+    document.getElementById('macroKpisTitle').textContent = (state.terr.length || state.tema.length) ?
       'Contratos e valores por macrorregião (com os filtros)' : 'Contratos e valores por macrorregião';
     macroKpisEl.innerHTML = '';
     MACRO_ORDER.forEach(function(m){
@@ -600,12 +603,12 @@
       var val = rows.reduce(function(a,p){ return a + (p.valor||0); }, 0);
       var el = document.createElement('div');
       el.className = 'mkpi';
-      el.setAttribute('aria-pressed', state.macro === m ? 'true' : 'false');
+      el.setAttribute('aria-pressed', state.macro.indexOf(m) !== -1 ? 'true' : 'false');
       el.innerHTML =
         '<div class="mname">' + m + '</div>' +
         '<div class="mcount num">' + rows.length + ' <small>' + (rows.length === 1 ? 'contrato' : 'contratos') + '</small></div>' +
         '<div class="mvalue num">' + fmtBRL(val) + '</div>';
-      if (!availMacro[m]){ el.style.opacity = '.35'; el.style.cursor = 'not-allowed'; el.title = 'Sem projetos com os outros filtros selecionados'; }
+      if (!availMacro[m] && state.macro.indexOf(m) === -1){ el.style.opacity = '.35'; el.style.cursor = 'not-allowed'; el.title = 'Sem projetos com os outros filtros selecionados'; }
       else { el.addEventListener('click', function(){ toggleMacro(m); }); }
       macroKpisEl.appendChild(el);
     });
@@ -615,7 +618,7 @@
   function updateMap(list){
     var activeTerrs = {};
     list.forEach(function(p){ activeTerrs[p.territorio] = 1; });
-    var anyFilter = !!(state.macro || state.terr || state.tema);
+    var anyFilter = !!(state.macro.length || state.terr.length || state.tema.length);
     document.querySelectorAll('#mapSvg .terr-path, #mapSvg .terr-label').forEach(function(el){
       var t = el.getAttribute('data-terr');
       var dim = anyFilter && !activeTerrs[t];
@@ -680,14 +683,13 @@
     filterToggleEl.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
   function updateFilterCount(){
-    var n = (state.macro ? 1 : 0) + (state.terr ? 1 : 0) + (state.tema ? 1 : 0);
+    var n = state.macro.length + state.terr.length + state.tema.length;
     filterCountEl.hidden = n === 0;
     filterCountEl.textContent = n;
   }
 
   /* ---------- render ---------- */
   function render(){
-    sanitizeState();
     buildFilterPills();
     var list = filtered();
     buildKpis(list);
