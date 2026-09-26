@@ -6,8 +6,8 @@
   :root{
     color-scheme: light;
     --bg-page:#e6eee2;
-    --bg-surface:#f9fbf6;
-    --bg-surface-2:#eef4e9;
+    --bg-surface:#eceeea;
+    --bg-surface-2:#e2e5df;
     --ink-primary:#241b2f;
     --ink-secondary:#5a5563;
     --ink-muted:#8b8794;
@@ -58,14 +58,14 @@
   /* ---------- header (compact, single strip) ---------- */
   .masthead{
     display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 12px;
-    padding:0 4px 6px;
+    padding:2px 4px 14px; gap:6px 16px;
   }
   .masthead .badge-dot{
-    display:inline-block; width:8px; height:8px; border-radius:999px; background:#e3c21a; margin-right:2px;
+    display:inline-block; width:13px; height:13px; border-radius:999px; background:#e3c21a; margin-right:2px;
   }
-  .masthead h1{ font-size:18px; font-weight:800; margin:0; display:inline-flex; align-items:center; gap:7px; }
+  .masthead h1{ font-size:clamp(26px,3.6vw,38px); font-weight:800; margin:0; display:inline-flex; align-items:center; gap:10px; line-height:1.1; }
   .masthead .eyebrow{
-    font-size:11.5px; color:var(--ink-muted); font-weight:600; margin:0;
+    font-size:clamp(13px,1.5vw,16px); color:var(--ink-muted); font-weight:600; margin:0;
   }
 
   .themebtn{
@@ -76,26 +76,24 @@
   .themebtn:hover{ border-color:var(--accent); color:var(--accent); }
 
   /* ---------- filter bar ---------- */
+  .filtercol{ position:relative; }
   .filterbar{
-    position:sticky; top:env(safe-area-inset-top,0px);
-    z-index:20;
-    background:var(--bg-surface);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:5px 10px;
-    box-shadow:var(--shadow);
-    display:flex; flex-wrap:wrap; gap:3px 14px; align-items:center;
-    margin-bottom:10px;
+    position:absolute; inset:0; overflow-y:auto;
+    background:var(--bg-surface); border:1px solid var(--border); border-radius:15px;
+    padding:14px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:14px;
   }
-  .filtergroup{ display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
-  .filtergroup > div{ display:flex; flex-wrap:wrap; gap:3px; }
-  .filtergroup .flabel{ font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); margin-right:2px; }
+  .filtergroup{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+  .filtergroup > div{ display:flex; flex-wrap:wrap; gap:4px; }
+  .filtergroup .flabel{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-muted); }
   .pill{
     border:1px solid var(--border-strong); background:var(--bg-surface-2); color:var(--ink-secondary);
-    font:inherit; font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; cursor:pointer; line-height:1.4;
+    font:inherit; font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; cursor:pointer; line-height:1.4; text-align:left;
     transition: background .12s, color .12s, border-color .12s;
   }
-  .pill:hover{ border-color:var(--accent); }
+  .pill:hover{ filter:brightness(1.06); }
+  .pill:disabled{ opacity:.28; cursor:not-allowed; filter:none; }
+  .pill .pdot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
   .pill[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
   .resetlink{ font-size:11px; font-weight:600; color:var(--accent); background:none; border:0; cursor:pointer; padding:2px 4px; }
   .resetlink:disabled{ opacity:.35; cursor:default; }
@@ -120,17 +118,22 @@
     box-shadow:var(--shadow);
     display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
   }
-  .kpi:nth-child(2){ grid-column:1 / -1; }
+  .kpis .kpi:nth-child(2){ grid-column:1 / -1; }
   .kpi .label{ font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-muted); }
   .kpi .value{ font-family:"Sora",sans-serif; font-size:21px; font-weight:800; margin-top:2px; white-space:nowrap; }
   .kpi .value.clay{ color:var(--clay); }
   .kpi .value.accent{ color:var(--accent); }
 
   /* ---------- top row: KPIs (left) / compact map (right), sized to content ---------- */
-  .topgrid{ display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:16px; align-items:stretch; }
-  .topgrid .card{ flex:0 0 460px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-  .topgrid .card .mapwrap{ flex:1 1 auto; display:flex; align-items:center; justify-content:center; width:100%; }
-  @media (max-width:720px){ .topgrid .card{ flex:1 1 280px; } .leftcol{ flex:1 1 100%; } }
+  .homegrid{ display:grid; grid-template-columns:351px 400px 460px; justify-content:center; gap:16px; margin-bottom:16px; align-items:stretch; }
+  .homegrid .leftcol{ flex:none; }
+  .homegrid .card{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .homegrid .card .mapwrap{ flex:1 1 auto; display:flex; align-items:center; justify-content:center; width:100%; }
+  @media (max-width:1290px){
+    .homegrid{ grid-template-columns:minmax(0,1fr); }
+    .filtercol{ position:static; }
+    .filterbar{ position:static; }
+  }
 
   .card{
     background:var(--bg-surface); border:1px solid var(--border); border-radius:16px;
@@ -148,11 +151,6 @@
   }
   .terr-path.dim{ opacity:.22; }
   .terr-path:hover{ filter:brightness(1.08); }
-  .terr-label{
-    font-family:"Sora",sans-serif; font-weight:700; font-size:15px; fill:#fff; pointer-events:none;
-    paint-order: stroke; stroke:rgba(0,0,0,.35); stroke-width:2.4px; stroke-linejoin:round;
-  }
-  .terr-label.dim{ opacity:.35; }
   .map-tip{
     position:absolute; pointer-events:none; background:var(--ink-primary); color:var(--bg-surface);
     font-size:12px; font-weight:600; padding:6px 10px; border-radius:8px; transform:translate(-50%,-120%);
@@ -163,8 +161,13 @@
   .proj{
     border:1px solid var(--border); border-radius:12px; padding:13px 15px; background:var(--bg-surface-2);
   }
+  .proj{ display:flex; flex-direction:column; height:100%; }
   .proj .ptop{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-  .proj .ptitle{ font-weight:700; font-size:13.6px; line-height:1.35; color:var(--ink-primary); text-decoration:none; }
+  .clamp{ display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
+  .clamp2{ -webkit-line-clamp:2; line-clamp:2; }
+  .clamp3{ -webkit-line-clamp:3; line-clamp:3; }
+  .clamp4{ -webkit-line-clamp:4; line-clamp:4; }
+  .proj .ptitle{ min-width:0; font-weight:700; font-size:13.6px; line-height:1.35; color:var(--ink-primary); text-decoration:none; }
   .proj .ptitle:hover{ text-decoration:underline; color:var(--accent); }
   .proj .pvalue{ font-family:"Sora",sans-serif; font-weight:800; font-size:14.5px; color:var(--clay); white-space:nowrap; flex:none; }
   .proj .pmeta{ margin-top:6px; font-size:12px; color:var(--ink-secondary); display:flex; flex-wrap:wrap; gap:4px 10px; }
@@ -174,37 +177,28 @@
     padding:2px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent);
   }
   .badge.clay{ background:var(--clay-soft); color:var(--clay); }
-  .proj .pbenef{ margin-top:7px; font-size:12px; color:var(--ink-secondary); padding-top:7px; border-top:1px dashed var(--border); }
+  .proj .pbenef{ margin-top:auto;  font-size:12px; color:var(--ink-secondary); padding-top:7px; border-top:1px dashed var(--border); }
   .proj .pbenef b{ color:var(--ink-primary); font-weight:600; }
   .empty{ text-align:center; padding:40px 10px; color:var(--ink-muted); font-size:13.5px; }
 
   footer{ text-align:center; font-size:11.5px; color:var(--ink-muted); padding-top:10px; }
 
-  /* ---------- territory popup ---------- */
-  .modal-backdrop{
-    position:fixed; inset:0; background:rgba(8,12,15,0.55); z-index:60;
-    display:flex; align-items:center; justify-content:center; padding:20px;
-    opacity:0; pointer-events:none; transition:opacity .15s;
+  /* ---------- territory page ---------- */
+  .backbtn{
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; text-decoration:none;
+    color:var(--accent-ink); background:var(--accent); padding:6px 14px; border-radius:999px; margin-bottom:12px;
   }
-  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
-  .modal-card{
-    background:var(--bg-surface); border-radius:16px; box-shadow:var(--shadow);
-    width:100%; max-width:720px; max-height:min(78vh,760px); display:flex; flex-direction:column;
-    transform:translateY(8px) scale(.98); transition:transform .15s;
-  }
-  .modal-backdrop.open .modal-card{ transform:translateY(0) scale(1); }
-  .modal-header{
-    display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--border);
-  }
-  .modal-header .swatch{ width:12px; height:12px; border-radius:4px; flex:none; }
-  .modal-header h3{ font-size:16px; font-weight:800; margin:0; flex:1 1 auto; }
-  .modal-header .mcount{ font-size:12px; color:var(--ink-muted); font-weight:600; }
-  .modal-close{
-    border:0; background:var(--bg-surface-2); color:var(--ink-secondary); width:30px; height:30px; border-radius:9px;
-    font-size:15px; cursor:pointer; flex:none; display:flex; align-items:center; justify-content:center;
-  }
-  .modal-close:hover{ color:var(--ink-primary); }
-  .modal-body{ padding:16px 18px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+  .backbtn:hover{ filter:brightness(1.08); }
+  .terrhead{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .terrhead .swatch{ width:14px; height:14px; border-radius:5px; flex:none; }
+  .terrhead h2{ font-size:22px; font-weight:800; margin:0; }
+  .terrkpis{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; max-width:640px; margin-bottom:16px; }
+  .terrlayout{ display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start; }
+  .terrmapcard{ flex:0 0 300px; padding:14px; }
+  .terrmapcard svg{ width:100%; height:auto; display:block; margin:0 auto; }
+  .projgrid{ flex:1 1 480px; display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); grid-auto-rows:1fr; gap:10px; align-items:stretch; }
+  .terr-path.current{ stroke:var(--ink-primary); stroke-width:2.4; }
+  @media (max-width:720px){ .terrmapcard{ flex:1 1 100%; } .terrkpis{ grid-template-columns:1fr; } }
 </style>
 
 <div class="wrap">
@@ -215,19 +209,26 @@
     <button class="themebtn" id="themeBtn" type="button" aria-label="Alternar modo escuro">☾ Modo escuro</button>
   </header>
 
-  <div class="filterbar" id="filterbar">
-    <div class="filtergroup">
-      <span class="flabel">Macro</span>
-      <div id="macroFilters"></div>
+  <div id="viewHome">
+  <div class="homegrid">
+    <div class="filtercol">
+      <div class="filterbar" id="filterbar">
+        <div class="filtergroup">
+          <span class="flabel">Macrorregião</span>
+          <div id="macroFilters"></div>
+        </div>
+        <div class="filtergroup">
+          <span class="flabel">Território</span>
+          <div id="terrFilters"></div>
+        </div>
+        <div class="filtergroup">
+          <span class="flabel">Tema</span>
+          <div id="temaFilters"></div>
+        </div>
+        <button class="resetlink" id="resetBtn" style="margin-top:auto; align-self:flex-start;">Limpar filtros</button>
+      </div>
     </div>
-    <div class="filtergroup">
-      <span class="flabel">Território</span>
-      <div id="terrFilters"></div>
-    </div>
-    <button class="resetlink" id="resetBtn" style="margin-left:auto;">Limpar filtros</button>
-  </div>
 
-  <div class="topgrid">
     <div class="leftcol">
       <div class="kpis">
         <div class="kpi"><div class="label">Projetos</div><div class="value num accent" id="kpiCount">43</div></div>
@@ -241,7 +242,7 @@
 
     <div class="card">
       <h2>Territórios de Desenvolvimento</h2>
-      <p class="sub">Clique num território do mapa pra ver os projetos dele, ou use os filtros acima pra restringir a lista completa.</p>
+      <p class="sub">Clique em um território do mapa pra abrir a página dele com os projetos. Os filtros à esquerda destacam territórios e atualizam os números.</p>
       <div class="mapwrap" id="mapWrap">
         <svg id="mapSvg" viewBox="0 0 640 940" xmlns="http://www.w3.org/2000/svg"></svg>
         <div class="map-tip" id="mapTip"></div>
@@ -249,19 +250,27 @@
     </div>
   </div>
 
-  <footer>Painel gerado a partir da base revisada dos 43 projetos · Piauí, 2026</footer>
-</div>
-
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal-card" role="dialog" aria-modal="true">
-    <div class="modal-header">
-      <span class="swatch" id="modalSwatch"></span>
-      <h3 id="modalTitle">Território</h3>
-      <span class="mcount" id="modalCount"></span>
-      <button class="modal-close" id="modalClose" aria-label="Fechar" type="button">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
   </div>
+
+  <div id="viewTerr" hidden>
+    <a class="backbtn" href="#/">← Voltar ao Painel</a>
+    <div class="terrhead">
+      <span class="swatch" id="tSwatch"></span>
+      <h2 id="tName"></h2>
+      <span class="badge clay" id="tMacro"></span>
+    </div>
+    <div class="terrkpis">
+      <div class="kpi"><div class="label">Projetos</div><div class="value num accent" id="tCount"></div></div>
+      <div class="kpi"><div class="label">Valor total</div><div class="value num clay" id="tValor"></div></div>
+      <div class="kpi"><div class="label">Municípios</div><div class="value num" id="tMun"></div></div>
+    </div>
+    <div class="terrlayout">
+      <div class="card terrmapcard"><svg id="terrMapSvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <div class="projgrid" id="terrProjList"></div>
+    </div>
+  </div>
+
+  <footer>Painel gerado a partir da base revisada dos 43 projetos · Piauí, 2026</footer>
 </div>
 
 <script id="dashboard-data" type="application/json">
@@ -285,7 +294,31 @@
   var MACRO_ORDER = DATA.macros;
   var TERR_ORDER = DATA.territorios;
 
-  var state = { macro: null, terr: null };
+  var TEMA_MAP = {
+    "Avicultura (ovos caipiras e orgânicos)":"Avicultura",
+    "Caprinocultura":"Ovinocaprinocultura",
+    "Meliponicultura":"Apicultura e meliponicultura","Apicultura":"Apicultura e meliponicultura",
+    "Fruticultura":"Fruticultura e beneficiamento",
+    "Fruticultura, horticultura e piscicultura":"Fruticultura e beneficiamento",
+    "Beneficiamento de frutas":"Fruticultura e beneficiamento",
+    "Beneficiamento de frutas integrado à horta agroecológica":"Fruticultura e beneficiamento",
+    "Hortifruticultura (hidroponia e beneficiamento)":"Hortifruticultura e hidroponia",
+    "Hidropinia":"Hortifruticultura e hidroponia",
+    "Quintais Produtivos":"Quintais produtivos","Quintais Produtivos Irrigados":"Quintais produtivos",
+    "Piscicultura integrada a quintais produtivos":"Pesca e piscicultura",
+    "Pesca artesanal":"Pesca e piscicultura","Beneficiamento do pescado":"Pesca e piscicultura",
+    "Mandiocultura (Casa de Farinha Comunitária)":"Mandiocultura e casa de farinha",
+    "Mandiocultura (agroindústria/casa de farinha)":"Mandiocultura e casa de farinha",
+    "Mandiocultura / agroindústria de derivados da mandioca (farinha)":"Mandiocultura e casa de farinha",
+    "Segurança hídrica e alimentar":"Segurança alimentar e hídrica"
+  };
+  PROJETOS.forEach(function(p){ p.temaG = TEMA_MAP[p.tema] || p.tema || '(sem tema)'; });
+  var TEMA_ORDER = (function(){
+    var c = {}; PROJETOS.forEach(function(p){ c[p.temaG] = (c[p.temaG]||0) + 1; });
+    return Object.keys(c).sort(function(a,b){ return c[b]-c[a] || a.localeCompare(b, 'pt-BR'); });
+  })();
+
+  var state = { macro: null, terr: null, tema: null };
 
   function fmtBRL(v){
     return "R$ " + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -296,36 +329,72 @@
     return PROJETOS.filter(function(p){
       if (state.macro && p.macro !== state.macro) return false;
       if (state.terr && p.territorio !== state.terr) return false;
+      if (state.tema && p.temaG !== state.tema) return false;
       return true;
     });
   }
 
-  /* ---------- build map ---------- */
-  var svg = document.getElementById('mapSvg');
-  svg.setAttribute('viewBox', '0 0 ' + MAP.viewW + ' ' + MAP.viewH);
+  /* ---------- interacao entre filtros: cada grupo so oferece valores que existem nos outros filtros ---------- */
+  function matches(p, s, skip){
+    if (skip !== 'macro' && s.macro && p.macro !== s.macro) return false;
+    if (skip !== 'terr' && s.terr && p.territorio !== s.terr) return false;
+    if (skip !== 'tema' && s.tema && p.temaG !== s.tema) return false;
+    return true;
+  }
+  function availability(){
+    var av = { macro:{}, terr:{}, tema:{} };
+    PROJETOS.forEach(function(p){
+      if (matches(p, state, 'macro')) av.macro[p.macro] = 1;
+      if (matches(p, state, 'terr'))  av.terr[p.territorio] = 1;
+      if (matches(p, state, 'tema'))  av.tema[p.temaG] = 1;
+    });
+    return av;
+  }
+  function sanitizeState(){
+    for (var i = 0; i < 3; i++){
+      var av = availability(), changed = false;
+      if (state.macro && !av.macro[state.macro]){ state.macro = null; changed = true; }
+      if (state.terr && !av.terr[state.terr]){ state.terr = null; changed = true; }
+      if (state.tema && !av.tema[state.tema]){ state.tema = null; changed = true; }
+      if (!changed) break;
+    }
+  }
+
+  /* ---------- routing helpers ---------- */
+  function slugify(s){
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  var SLUG_TO_TERR = {};
+  TERR_ORDER.forEach(function(t){ SLUG_TO_TERR[slugify(t)] = t; });
+  function goTo(curto){ location.hash = '#/' + slugify(curto); }
+
+  /* ---------- map (used on home and on territory pages) ---------- */
   var mapTip = document.getElementById('mapTip');
   var mapWrap = document.getElementById('mapWrap');
 
-  MAP.territorios.forEach(function(t){
-    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d', t.d);
-    path.setAttribute('class','terr-path');
-    path.setAttribute('fill', TERR_COLORS[t.curto] || '#999');
-    path.setAttribute('data-terr', t.curto);
-    path.addEventListener('click', function(){ openTerrModal(t.curto); });
-    path.addEventListener('mousemove', function(ev){ showTip(ev, t.curto); });
-    path.addEventListener('mouseleave', hideTip);
-    svg.appendChild(path);
-  });
-  MAP.territorios.forEach(function(t){
-    var txt = document.createElementNS('http://www.w3.org/2000/svg','text');
-    txt.setAttribute('x', t.cx); txt.setAttribute('y', t.cy);
-    txt.setAttribute('text-anchor','middle'); txt.setAttribute('class','terr-label');
-    txt.setAttribute('data-terr', t.curto);
-    txt.textContent = TERR_ORDER.indexOf(t.curto) + 1;
-    txt.style.pointerEvents = 'none';
-    svg.appendChild(txt);
-  });
+  function buildMap(svgEl, opts){
+    svgEl.setAttribute('viewBox', '0 0 ' + MAP.viewW + ' ' + MAP.viewH);
+    svgEl.innerHTML = '';
+    MAP.territorios.forEach(function(t){
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', t.d);
+      var cls = 'terr-path';
+      if (opts.current){ cls += (t.curto === opts.current) ? ' current' : ' dim'; }
+      path.setAttribute('class', cls);
+      path.setAttribute('fill', TERR_COLORS[t.curto] || '#999');
+      path.setAttribute('data-terr', t.curto);
+      var title = document.createElementNS('http://www.w3.org/2000/svg','title');
+      title.textContent = t.curto;
+      path.appendChild(title);
+      if (t.curto !== opts.current){ path.addEventListener('click', function(){ goTo(t.curto); }); }
+      if (opts.tip){
+        path.addEventListener('mousemove', function(ev){ showTip(ev, t.curto); });
+        path.addEventListener('mouseleave', hideTip);
+      }
+      svgEl.appendChild(path);
+    });
+  }
+  buildMap(document.getElementById('mapSvg'), { tip:true });
 
   function showTip(ev, curto){
     var rect = mapWrap.getBoundingClientRect();
@@ -339,58 +408,79 @@
   /* ---------- filter pills ---------- */
   var macroFiltersEl = document.getElementById('macroFilters');
   var terrFiltersEl = document.getElementById('terrFilters');
+  var temaFiltersEl = document.getElementById('temaFilters');
 
-  function pill(label, active, onClick){
+  function inkOn(hex){
+    var r = parseInt(hex.substr(1,2),16), g = parseInt(hex.substr(3,2),16), b = parseInt(hex.substr(5,2),16);
+    return (0.299*r + 0.587*g + 0.114*b) > 150 ? '#1c1424' : '#ffffff';
+  }
+  function pill(label, active, onClick, color, disabled){
     var b = document.createElement('button');
-    b.className = 'pill'; b.type = 'button'; b.textContent = label;
+    b.className = 'pill'; b.type = 'button';
+    if (color){
+      var dot = document.createElement('span');
+      dot.className = 'pdot'; dot.style.background = color;
+      b.appendChild(dot);
+      b.style.borderColor = color;
+      if (active){ b.style.background = color; b.style.color = inkOn(color); dot.style.background = inkOn(color); }
+    }
+    b.appendChild(document.createTextNode(label));
     b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    if (disabled){ b.disabled = true; b.title = 'Sem projetos com os outros filtros selecionados'; }
     b.addEventListener('click', onClick);
     return b;
   }
 
   function toggleMacro(m){ state.macro = (state.macro === m) ? null : m; render(); }
+  function toggleTema(t){ state.tema = (state.tema === t) ? null : t; render(); }
   function toggleTerr(t){ state.terr = (state.terr === t) ? null : t; render(); }
 
   function buildFilterPills(){
+    var av = availability();
     macroFiltersEl.innerHTML = '';
     macroFiltersEl.appendChild(pill('Todas', state.macro===null, function(){ state.macro=null; render(); }));
     MACRO_ORDER.forEach(function(m){
-      macroFiltersEl.appendChild(pill(m, state.macro===m, function(){ toggleMacro(m); }));
+      macroFiltersEl.appendChild(pill(m, state.macro===m, function(){ toggleMacro(m); }, null, !av.macro[m]));
     });
     terrFiltersEl.innerHTML = '';
     terrFiltersEl.appendChild(pill('Todos', state.terr===null, function(){ state.terr=null; render(); }));
     TERR_ORDER.forEach(function(t){
-      terrFiltersEl.appendChild(pill(t, state.terr===t, function(){ toggleTerr(t); }));
+      terrFiltersEl.appendChild(pill(t, state.terr===t, function(){ toggleTerr(t); }, TERR_COLORS[t], !av.terr[t]));
+    });
+    temaFiltersEl.innerHTML = '';
+    temaFiltersEl.appendChild(pill('Todos', state.tema===null, function(){ state.tema=null; render(); }));
+    TEMA_ORDER.forEach(function(t){
+      temaFiltersEl.appendChild(pill(t, state.tema===t, function(){ toggleTema(t); }, null, !av.tema[t]));
     });
   }
 
   document.getElementById('resetBtn').addEventListener('click', function(){
-    state = { macro:null, terr:null };
+    state = { macro:null, terr:null, tema:null };
     render();
   });
 
-  /* ---------- project card (used by the territory popup) ---------- */
+  /* ---------- project card (used on territory pages) ---------- */
   function projCardHtml(p, opts){
     opts = opts || {};
     var benefHtml = p.beneficiarios ?
-      '<div class="pbenef"><b>Beneficiários:</b> ' + escapeHtml(p.beneficiarios) + '</div>' : '';
+      '<div class="pbenef" title="' + escapeHtml(p.beneficiarios) + '"><div class="clamp clamp3"><b>Beneficiários:</b> ' + escapeHtml(p.beneficiarios) + '</div></div>' :
+      '<div class="pbenef"><div class="clamp clamp3"><b>Beneficiários:</b> —</div></div>';
     var terrBadge = opts.hideTerr ? '' : '<span class="badge">' + escapeHtml(p.territorio) + '</span>';
     return (
       '<div class="proj">' +
         '<div class="ptop">' +
-          '<a class="ptitle" href="' + p.url + '" target="_blank" rel="noopener">' + escapeHtml(p.titulo) + '</a>' +
+          '<a class="ptitle clamp clamp4" title="' + escapeHtml(p.titulo) + '" href="' + p.url + '" target="_blank" rel="noopener">' + escapeHtml(p.titulo) + '</a>' +
           '<span class="pvalue num">' + fmtBRL(p.valor||0) + '</span>' +
         '</div>' +
         '<div class="pmeta">' +
           terrBadge +
           '<span class="badge clay">' + escapeHtml(p.macro) + '</span>' +
-          '<span><b>Município:</b> ' + escapeHtml(p.municipio||'—') + '</span>' +
-          '<span><b>Autores:</b> ' + escapeHtml(p.autores||'—') + '</span>' +
+          '<span style="flex:1 1 100%"><b>Município:</b> ' + escapeHtml(p.municipio||'—') + '</span>' +
+          '<span class="clamp clamp2" style="flex:1 1 100%" title="' + escapeHtml(p.autores||'') + '"><b>Autores:</b> ' + escapeHtml(p.autores||'—') + '</span>' +
         '</div>' + benefHtml +
       '</div>'
     );
   }
-
 
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, function(c){
@@ -412,6 +502,7 @@
   /* ---------- contratos e valores por macrorregião (totais reais; clique filtra a macro) ---------- */
   var macroKpisEl = document.getElementById('macroKpis');
   function buildMacroKpis(){
+    var availMacro = availability().macro;
     macroKpisEl.innerHTML = '';
     MACRO_ORDER.forEach(function(m){
       var rows = PROJETOS.filter(function(p){ return p.macro === m; });
@@ -423,7 +514,8 @@
         '<div class="mname">' + m + '</div>' +
         '<div class="mcount num">' + rows.length + ' <small>' + (rows.length === 1 ? 'contrato' : 'contratos') + '</small></div>' +
         '<div class="mvalue num">' + fmtBRL(val) + '</div>';
-      el.addEventListener('click', function(){ toggleMacro(m); });
+      if (!availMacro[m]){ el.style.opacity = '.35'; el.style.cursor = 'not-allowed'; el.title = 'Sem projetos com os outros filtros selecionados'; }
+      else { el.addEventListener('click', function(){ toggleMacro(m); }); }
       macroKpisEl.appendChild(el);
     });
   }
@@ -432,35 +524,45 @@
   function updateMap(list){
     var activeTerrs = {};
     list.forEach(function(p){ activeTerrs[p.territorio] = 1; });
-    var anyFilter = !!(state.macro || state.terr);
-    document.querySelectorAll('.terr-path, .terr-label').forEach(function(el){
+    var anyFilter = !!(state.macro || state.terr || state.tema);
+    document.querySelectorAll('#mapSvg .terr-path').forEach(function(el){
       var t = el.getAttribute('data-terr');
       var dim = anyFilter && !activeTerrs[t];
       el.classList.toggle('dim', dim);
     });
   }
 
-  /* ---------- territory popup ---------- */
-  var modalBackdrop = document.getElementById('modalBackdrop');
-  var modalTitle = document.getElementById('modalTitle');
-  var modalCount = document.getElementById('modalCount');
-  var modalSwatch = document.getElementById('modalSwatch');
-  var modalBody = document.getElementById('modalBody');
-  var modalClose = document.getElementById('modalClose');
+  /* ---------- pages: home / territory (hash routing: #/slug) ---------- */
+  var viewHome = document.getElementById('viewHome');
+  var viewTerr = document.getElementById('viewTerr');
 
-  function openTerrModal(curto){
+  function showHome(){
+    viewTerr.hidden = true; viewHome.hidden = false;
+    document.title = 'Portfólio JRT Piauí';
+  }
+  function showTerr(curto){
     var rows = PROJETOS.filter(function(p){ return p.territorio === curto; });
     var val = rows.reduce(function(a,p){ return a + (p.valor||0); }, 0);
-    modalTitle.textContent = curto;
-    modalCount.textContent = rows.length + (rows.length===1?' projeto · ':' projetos · ') + fmtBRL(val);
-    modalSwatch.style.background = TERR_COLORS[curto] || '#999';
-    modalBody.innerHTML = rows.map(function(p){ return projCardHtml(p, {hideTerr:true}); }).join('');
-    modalBackdrop.classList.add('open');
+    var muns = {}; rows.forEach(function(p){ muns[p.municipio] = 1; });
+    document.getElementById('tSwatch').style.background = TERR_COLORS[curto] || '#999';
+    document.getElementById('tName').textContent = curto;
+    document.getElementById('tMacro').textContent = rows.length ? rows[0].macro : '';
+    document.getElementById('tCount').textContent = rows.length;
+    document.getElementById('tValor').textContent = fmtBRL(val);
+    document.getElementById('tMun').textContent = Object.keys(muns).length;
+    buildMap(document.getElementById('terrMapSvg'), { current: curto });
+    document.getElementById('terrProjList').innerHTML =
+      rows.map(function(p){ return projCardHtml(p, {hideTerr:true}); }).join('');
+    viewHome.hidden = true; viewTerr.hidden = false;
+    document.title = curto + ' · Portfólio JRT Piauí';
   }
-  function closeModal(){ modalBackdrop.classList.remove('open'); }
-  modalClose.addEventListener('click', closeModal);
-  modalBackdrop.addEventListener('click', function(e){ if (e.target === modalBackdrop) closeModal(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+  function route(){
+    var m = (location.hash || '').match(/^#\/([a-z0-9-]+)$/);
+    var terr = m && SLUG_TO_TERR[m[1]];
+    if (terr){ showTerr(terr); } else { showHome(); }
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
 
   /* ---------- theme toggle ---------- */
   var themeBtn = document.getElementById('themeBtn');
@@ -480,6 +582,7 @@
 
   /* ---------- render ---------- */
   function render(){
+    sanitizeState();
     buildFilterPills();
     var list = filtered();
     buildKpis(list);
@@ -488,5 +591,6 @@
   }
 
   render();
+  route();
 })();
 </script>
