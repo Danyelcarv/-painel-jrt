@@ -293,7 +293,7 @@
         <div class="kpi"><div class="label">Territórios</div><div class="value num" id="kpiTerr">12 / 12</div></div>
         <div class="kpi"><div class="label">Macrorregiões</div><div class="value num" id="kpiMacro">4 / 4</div></div>
       </div>
-      <div class="macrokpis-title">Contratos e valores por macrorregião</div>
+      <div class="macrokpis-title" id="macroKpisTitle">Contratos e valores por macrorregião</div>
       <div class="macrokpis" id="macroKpis"></div>
     </div>
 
@@ -593,9 +593,11 @@
   var macroKpisEl = document.getElementById('macroKpis');
   function buildMacroKpis(){
     var availMacro = availability().macro;
+    document.getElementById('macroKpisTitle').textContent = (state.terr || state.tema) ?
+      'Contratos e valores por macrorregião (com os filtros)' : 'Contratos e valores por macrorregião';
     macroKpisEl.innerHTML = '';
     MACRO_ORDER.forEach(function(m){
-      var rows = PROJETOS.filter(function(p){ return p.macro === m; });
+      var rows = PROJETOS.filter(function(p){ return p.macro === m && matches(p, state, 'macro'); });
       var val = rows.reduce(function(a,p){ return a + (p.valor||0); }, 0);
       var el = document.createElement('div');
       el.className = 'mkpi';
